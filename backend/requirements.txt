@@ -1,0 +1,18 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+httpx
+xmltodict
+pydantic
+rich
+aiofiles
+unidecode
+
+# --- Pacotes de IA  ---
+google-genai
+openai>=1.0.0
+
+# --- Pacotes de Auth ---
+sqlalchemy
+passlib[bcrypt]
+python-jose
