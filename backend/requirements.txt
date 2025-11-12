@@ -7,6 +7,7 @@ pydantic
 rich
 aiofiles
 unidecode
+python-multipart
 
 # --- Pacotes de IA  ---
 google-genai
