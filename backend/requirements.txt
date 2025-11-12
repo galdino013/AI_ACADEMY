@@ -17,3 +17,5 @@ openai>=1.0.0
 sqlalchemy
 passlib[bcrypt]
 python-jose
+argon2-cffi
+
