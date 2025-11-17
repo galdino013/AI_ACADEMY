@@ -1,4 +1,4 @@
-# backend/email_service.py
+# backend/email_service.py (Corrigido)
 
 import smtplib
 from email.mime.text import MIMEText
@@ -6,25 +6,33 @@ from email.mime.multipart import MIMEMultipart
 import os
 from dotenv import load_dotenv
 import logging
+from pathlib import Path
 
-load_dotenv() 
+# Carrega o .env a partir da pasta 'backend'
+BASE_DIR = Path(__file__).resolve().parent
+load_dotenv(dotenv_path=BASE_DIR / ".env") 
+
+# Pega o logger definido no main.py
+logger = logging.getLogger("ai_academy")
 
 EMAIL_USERNAME = os.getenv("EMAIL_USERNAME")
 EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 EMAIL_SERVER = os.getenv("EMAIL_SERVER")
 EMAIL_PORT = int(os.getenv("EMAIL_PORT", 587))
 EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True").lower() == "true"
-FRONTEND_URL = os.getenv("FRONTEND_URL", "https://aiacademy2025.netlify.app") 
 
-logger = logging.getLogger("ai_academy")
-
-async def send_confirmation_email(recipient_email: str, username: str, confirmation_token: str):
+# ✅ CORREÇÃO:
+# 1. Removido 'async' - esta é uma função síncrona (blocking)
+# 2. Adicionado 'frontend_url' como um argumento
+def send_confirmation_email(recipient_email: str, username: str, confirmation_token: str, frontend_url: str):
     if not (EMAIL_USERNAME and EMAIL_PASSWORD and EMAIL_SERVER):
         logger.error("Configurações de e-mail incompletas. Não é possível enviar e-mail de confirmação.")
         return
 
     subject = "Confirme sua conta no AI Academy"
-    confirmation_link = f"{FRONTEND_URL}/confirm-account?token={confirmation_token}"
+    
+    # ✅ CORREÇÃO: Usa o 'frontend_url' recebido
+    confirmation_link = f"{frontend_url}/confirm-account?token={confirmation_token}"
 
     body = f"""
     <html>
@@ -32,7 +40,7 @@ async def send_confirmation_email(recipient_email: str, username: str, confirmat
         <p>Olá, {username}!</p>
         <p>Obrigado por se registrar no AI Academy.</p>
         <p>Por favor, clique no link abaixo para confirmar sua conta:</p>
-        <p><a href="{confirmation_link}">Confirmar Minha Conta</a></p>
+        <p><a href="{confirmation_link}" style="padding: 10px 15px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Confirmar Minha Conta</a></p>
         <p>Se você não se registrou no AI Academy, pode ignorar este e-mail.</p>
         <p>Atenciosamente,</p>
         <p>A equipe AI Academy</p>
@@ -41,12 +49,13 @@ async def send_confirmation_email(recipient_email: str, username: str, confirmat
     """
 
     message = MIMEMultipart("alternative")
-    message["From"] = EMAIL_USERNAME
+    message["From"] = f"AI Academy <{EMAIL_USERNAME}>"
     message["To"] = recipient_email
     message["Subject"] = subject
     message.attach(MIMEText(body, "html"))
 
     try:
+        # smtplib é síncrono (bloqueante), por isso esta função não deve ser 'async'
         server = smtplib.SMTP(EMAIL_SERVER, EMAIL_PORT)
         if EMAIL_USE_TLS:
             server.starttls()

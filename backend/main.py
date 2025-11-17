@@ -1,6 +1,6 @@
 # main.py — AI Academy
 # Autor: Igor Galdino
-# Versão: 2.7 (Correção de Logger e Init de IA)
+# Versão: 2.8 (Correção de Envio de Email Síncrono)
 
 import os
 import json
@@ -25,10 +25,10 @@ from . import models, crud, schemas, security
 from pathlib import Path
 from .database import engine, SessionLocal
 from sqlalchemy.orm import Session
-from . import email_service
+from . import email_service # Importa o serviço de e-mail
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
 
-# ✅ CORREÇÃO: Logger definido no topo
+# Logger definido no topo
 console = Console()
 logging.basicConfig(level="INFO", format="%(message)s", datefmt="[%X]", handlers=[RichHandler(console=console)])
 logger = logging.getLogger("ai_academy")
@@ -62,11 +62,9 @@ API_CONCURRENCY = int(os.getenv("API_CONCURRENCY", "10"))
 DEFAULT_HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
 GEMINI_MODELS = ["gemini-2.5-flash"]
 
-# Configs de E-mail
 EMAIL_CONFIRMATION_SECRET = os.getenv("EMAIL_CONFIRMATION_SECRET")
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
-# Serializador de Token
 serializer = None
 if EMAIL_CONFIRMATION_SECRET:
     serializer = URLSafeTimedSerializer(EMAIL_CONFIRMATION_SECRET)
@@ -74,35 +72,31 @@ if EMAIL_CONFIRMATION_SECRET:
 else:
     logger.error("‼️ EMAIL_CONFIRMATION_SECRET não configurada. Confirmação de e-mail desabilitada (usuários serão ativados automaticamente).")
 
-# ✅ CORREÇÃO: Inicialização correta dos clientes de IA
 genai_client = None
 if google_genai_sdk and GEMINI_API_KEY:
     try:
-        # O novo SDK 'google-genai' usa .Client() e pega a chave do ENV
         genai_client = google_genai_sdk.Client()
         logger.info("Google GenAI SDK inicializado com sucesso.")
     except Exception as e:
         logger.warning(f"⚠️ Aviso: Falha ao instanciar 'genai.Client()': {e}")
-        google_genai_sdk = None # Desativa se a inicialização falhar
+        google_genai_sdk = None
 else:
     logger.warning("Google GenAI SDK ou API Key não configurados.")
     google_genai_sdk = None
 
 if openai and OPENAI_API_KEY:
-    pass # OpenAI v1.0+ é inicializado por chamada
+    pass
 else:
     openai = None
 
-# Cria as tabelas do DB (agora o models.py foi importado corretamente)
 models.Base.metadata.create_all(bind=engine)
 
 # --------------------------
 # FASTAPI APP
 # --------------------------
-app = FastAPI(title="AI Academy - Backend Profissional", version="2025.11.07 (v2.7)")
+app = FastAPI(title="AI Academy - Backend Profissional", version="2025.11.07 (v2.8)")
 app.add_middleware(
     CORSMiddleware,
-    # ATENÇÃO: "*" é inseguro para produção. Use a URL do seu Netlify
     allow_origins=["https://aiacademy2025.netlify.app", "http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
@@ -132,9 +126,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
     if user is None:
         raise credentials_exception
     
-    # Verifica se o usuário está ativo
     if not user.is_active:
-        # Se o serializer não estiver configurado, não bloqueie o usuário
         if EMAIL_CONFIRMATION_SECRET:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
@@ -289,8 +281,6 @@ def _run_sync_genai_generate(model_name: str, prompt: str) -> str:
     if genai_client is None or google_genai_sdk is None:
         raise RuntimeError("Gemini client (google-genai) não configurado")
     try:
-        # ✅ CORREÇÃO: Usa o 'genai_client' (o Client) para acessar 'models'
-        # e o 'model_name' não precisa do prefixo 'models/' aqui, mas a chamada sim
         model_to_use = f"models/{model_name}"
         response = genai_client.models.generate_content(model=model_to_use, contents=prompt)
         return response.text.strip()
@@ -310,7 +300,6 @@ async def gerar_resumo_openai_async(pergunta: str, contexto: str) -> str:
     if openai is None or OPENAI_API_KEY is None:
         raise RuntimeError("OpenAI não disponível ou chave não configurada")
     try:
-        # ✅ CORREÇÃO: Usa a sintaxe v1.0+ do OpenAI
         client = openai.AsyncOpenAI(api_key=OPENAI_API_KEY)
     except Exception as e:
          raise RuntimeError(f"Falha ao instanciar cliente AsyncOpenAI: {e}")
@@ -397,7 +386,6 @@ async def perguntar(
             if google_genai_sdk is not None:
                 prompt_opt = f"Analise a pergunta em português: '{pergunta.texto}'. Retorne uma query técnica curta em portugues para bases acadêmicas (apenas a query)."
                 try:
-                    # ✅ CORREÇÃO: Usa a função síncrona em uma thread
                     termo_otimizado = await asyncio.to_thread(_run_sync_genai_generate, GEMINI_MODELS[0], prompt_opt)
                     termo_otimizado = termo_otimizado.strip().strip('\"')
                     if termo_otimizado and termo_otimizado.lower() != q.lower():
@@ -470,7 +458,6 @@ def favicon(): return Response(status_code=204)
 
 @app.post("/users/register", response_model=schemas.User, tags=["Autenticação"])
 async def register_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    # 1. Verificar se o nome de usuário já existe
     db_user_username = crud.get_user_by_username(db, username=user.username)
     if db_user_username:
         raise HTTPException(
@@ -478,7 +465,6 @@ async def register_user(user: schemas.UserCreate, db: Session = Depends(get_db))
             detail="Nome de usuário já registrado."
         )
     
-    # 2. Verificar se o e-mail já existe
     db_user_email = crud.get_user_by_email(db, email=user.email)
     if db_user_email:
         raise HTTPException(
@@ -486,41 +472,38 @@ async def register_user(user: schemas.UserCreate, db: Session = Depends(get_db))
             detail="E-mail já registrado."
         )
             
-    # 3. Validação de senha
-    if len(user.password) < 8: # Exemplo: mínimo 8 caracteres
+    if len(user.password) < 8: 
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="A senha deve ter no mínimo 8 caracteres."
         )
 
-    # Cria o usuário no banco de dados (crud.create_user já define is_active=False)
     new_user = await asyncio.to_thread(crud.create_user, db=db, user=user)
 
     if serializer:
-        # Gera token de confirmação de e-mail
         confirmation_token = serializer.dumps(new_user.id, salt='email-confirm')
         
-        # Envia e-mail de confirmação (em background)
-        asyncio.create_task(email_service.send_confirmation_email(
+        # ✅ CORREÇÃO: Chama a função síncrona em uma thread
+        asyncio.create_task(asyncio.to_thread(
+            email_service.send_confirmation_email,
             recipient_email=new_user.email,
             username=new_user.username,
             confirmation_token=confirmation_token,
-            frontend_url=FRONTEND_URL # Passa a URL do frontend
+            frontend_url=FRONTEND_URL
         ))
     else:
         logger.warning(f"Confirmação de e-mail desabilitada. Ativando usuário {new_user.username} automaticamente.")
-        # Se a confirmação de e-mail não estiver configurada, ative o usuário automaticamente
         await asyncio.to_thread(crud.activate_user, db=db, user_id=new_user.id)
 
-    return new_user # Retorna o novo usuário (com is_active=False ou True)
+    return new_user
 
 @app.get("/users/confirm-account", tags=["Autenticação"])
-async def confirm_account(token: str = Query(...), db: Session = Depends(get_db)): # Use Query para pegar o token da URL
+async def confirm_account(token: str = Query(...), db: Session = Depends(get_db)):
     if not serializer:
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Confirmação de e-mail não configurada no servidor.")
 
     try:
-        user_id = serializer.loads(token, salt='email-confirm', max_age=3600) # Token válido por 1 hora (3600s)
+        user_id = serializer.loads(token, salt='email-confirm', max_age=3600)
     except SignatureExpired:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="O token de confirmação expirou.")
     except BadTimeSignature:
@@ -532,7 +515,6 @@ async def confirm_account(token: str = Query(...), db: Session = Depends(get_db)
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Usuário não encontrado.")
     
-    # Retorna uma mensagem de sucesso simples. O frontend (ConfirmAccountPage) exibirá isso.
     return {"message": "Sua conta foi confirmada com sucesso! Você já pode fazer login."}
 
 @app.post("/token", response_model=schemas.Token, tags=["Autenticação"])
@@ -540,7 +522,7 @@ async def login_for_access_token(
     form_data: OAuth2PasswordRequestForm = Depends(), 
     db: Session = Depends(get_db)
 ):
-    user = crud.get_user_by_username(db, username=form_data.username) # Login ainda com username
+    user = crud.get_user_by_username(db, username=form_data.username)
     
     if not user:
         raise HTTPException(
@@ -549,7 +531,6 @@ async def login_for_access_token(
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    # ✅ NOVO: Verificar se o usuário está ativo
     if not user.is_active:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -579,5 +560,5 @@ async def login_for_access_token(
 # --------------------------
 if __name__ == "__main__":
     import uvicorn
-    logger.info("Iniciando AI Academy Backend v2.6")
+    logger.info("Iniciando AI Academy Backend v2.8")
     uvicorn.run("backend.main:app", host="0.0.0.0", port=int(os.getenv("PORT", 8080)), reload=True)
