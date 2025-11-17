@@ -36,7 +36,7 @@ function LabPage() {
         logout();
       }
     }
-  }, [token, logout]);
+  }, [token, logout]); // ✅ Dependências corretas
 
   useEffect(() => {
     fetchHistory();
@@ -61,10 +61,13 @@ function LabPage() {
         pergunta: query,
         resumo_ia: response.data.resumo_ia,
         resultados: response.data.resultados,
+        // O backend agora salva o timestamp, então buscamos o histórico real
       };
       
       setActiveSearch(newSearch);
-      setHistory(prevHistory => [newSearch, ...prevHistory]);
+      
+      // ✅ CORREÇÃO 2: Busca o histórico real do DB após a pesquisa
+      fetchHistory();
       
     } catch (err) {
       const errorMsg = err.response?.data?.detail || 'Ocorreu um erro ao buscar.';
@@ -77,7 +80,8 @@ function LabPage() {
       setIsLoading(false);
       setQuery('');
     }
-  }, [query, token, logout]);
+  }, [query, token, logout, fetchHistory]); // ✅ Adiciona fetchHistory às dependências
+  
   const handleHistoryClick = useCallback((item) => {
     setActiveSearch({
         resumo_ia: item.resumo_ia,
@@ -118,6 +122,7 @@ function LabPage() {
         user={user}
       />
 
+      {/* ✅ CORREÇÃO 1: Usa crases (`) em vez de aspas (') */}
       <main className={`main-content ${isSidebarOpen ? 'main-content-shifted' : ''}`}>
          <button className="menu-toggle" onClick={() => setSidebarOpen(!isSidebarOpen)}>
             <MenuIcon />

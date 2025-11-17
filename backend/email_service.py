@@ -1,4 +1,4 @@
-# backend/email_service.py (ATUALIZADO PARA SENDGRID)
+# backend/email_service.py (Atualizado com Template Futurista)
 
 import os
 import logging
@@ -25,29 +25,86 @@ def send_confirmation_email(recipient_email: str, username: str, confirmation_to
         return
 
     confirmation_link = f"{frontend_url}/confirm-account?token={confirmation_token}"
-
-    # Conteúdo HTML do e-mail
+    
+    # ✅ NOVO TEMPLATE HTML FUTURISTA
+    # Construído com tabelas para máxima compatibilidade com clientes de e-mail (Outlook, Gmail, etc.)
     html_content = f"""
-    <html>
-    <body style="font-family: Arial, sans-serif; line-height: 1.6;">
-        <p>Olá, <strong>{username}</strong>!</p>
-        <p>Obrigado por se registrar no AI Academy.</p>
-        <p>Por favor, clique no botão abaixo para confirmar sua conta:</p>
-        <p style="margin: 25px 0;">
-            <a href="{confirmation_link}" 
-               style="padding: 12px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">
-               Confirmar Minha Conta
-            </a>
-        </p>
-        <p>Se você não se registrou no AI Academy, pode ignorar este e-mail.</p>
-        <p>Atenciosamente,<br>A equipe AI Academy</p>
-    </body>
-    </html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirme sua Conta</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #0f1112; font-family: Arial, sans-serif;">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" style="background-color: #0f1112;">
+        <tr>
+            <td align="center">
+                <table width="600" border="0" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 20px auto; background-color: #141416; border-radius: 8px; border: 1px solid #222425; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
+                    
+                    <!-- 1. Seção da Logo -->
+                    <tr>
+                        <td align="center" style="padding: 30px 20px 20px 20px;">
+                            <!-- ✅ SUA LOGO (deve estar em frontend/public/Logo_AI.png) -->
+                            <img src="{frontend_url}/Logo_AI.png" alt="AI Academy Logo" style="height: 50px; width: auto; display: block;">
+                        </td>
+                    </tr>
+                    
+                    <!-- 2. Seção do Título -->
+                    <tr>
+                        <td align="center" style="padding: 0 30px 20px 30px;">
+                            <h1 style="margin: 0; color: #eef0f2; font-size: 24px; font-weight: 700;">
+                                Confirme sua conta
+                            </h1>
+                        </td>
+                    </tr>
+
+                    <!-- 3. Seção do Corpo -->
+                    <tr>
+                        <td align="left" style="padding: 0 40px 30px 40px; color: #a9adb2; font-size: 16px; line-height: 1.6;">
+                            <p style="margin: 0 0 20px 0;">Olá, <strong>{username}</strong>!</p>
+                            <p style="margin: 0 0 25px 0;">
+                                Obrigado por se registrar no AI Academy. Para ativar sua conta e começar a usar seu assistente de pesquisa, por favor, clique no botão abaixo:
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- 4. Seção do Botão (CTA) -->
+                    <tr>
+                        <td align="center" style="padding: 0 40px 40px 40px;">
+                            <!-- Tabela interna para o botão (para compatibilidade) -->
+                            <table border="0" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td align="center" style="background: linear-gradient(90deg, #00e0c6, #ad53ff); border-radius: 8px;">
+                                        <a href="{confirmation_link}"
+                                           target="_blank"
+                                           style="padding: 14px 28px; border-radius: 8px; font-size: 16px; font-weight: 700; color: #ffffff; text-decoration: none; display: inline-block;">
+                                            Ativar Minha Conta
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- 5. Seção do Rodapé -->
+                    <tr>
+                        <td align="center" style="padding: 20px 40px 30px 40px; border-top: 1px solid #222425; color: #a9adb2; font-size: 12px;">
+                            <p style="margin: 0;">Se você não se registrou no AI Academy, por favor, ignore este e-mail.</p>
+                            <p style="margin: 10px 0 0 0;">© 2025 AI Academy. Todos os direitos reservados.</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
     """
     
     # Cria o objeto de e-mail do SendGrid
     message = Mail(
-        from_email=FROM_EMAIL,
+        from_email=(f"AI Academy <{FROM_EMAIL}>", FROM_EMAIL), # Nome "De" profissional
         to_emails=recipient_email,
         subject='Confirme sua conta no AI Academy',
         html_content=html_content

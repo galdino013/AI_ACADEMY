@@ -10,6 +10,19 @@
 
 -----
 
+## ✨ Funcionalidades Principais
+
+  - 🚀 **Autenticação Segura (JWT):** Sistema completo de registro (`/users/register`) e login (`/token`). As senhas são protegidas no banco de dados usando hashing **Argon2**, e as sessões são gerenciadas por **JSON Web Tokens (JWT)**.
+  - 🔒 **Rotas Protegidas:** Os endpoints de pesquisa (`/perguntar`) e histórico (`/historico`) são totalmente protegidos. Apenas usuários autenticados com um token válido podem acessá-los.
+  - 📚 **Histórico por Usuário:** Cada usuário tem seu próprio histórico de pesquisa privado, persistido em um banco de dados **SQLite** e vinculado ao seu `user_id`. O histórico de um usuário não é visível para nenhum outro.
+  - 🧠 **Inteligência com Google Gemini:**
+      - **Otimização de Query:** Se a busca inicial falhar, a IA reinterpreta a pergunta e a transforma em termos técnicos para uma segunda tentativa.
+      - **Resumos Agregados:** A IA lê os artigos encontrados e gera um resumo único e coeso em português.
+  - ⚙️ **Arquitetura Moderna:**
+      - **Backend:** Robusto e assíncrono em **FastAPI**, com **SQLAlchemy** gerenciando o banco de dados **SQLite**.
+      - **Frontend:** Reativo e performático construído com **React + Vite**, utilizando **React Context** para gerenciamento de estado de autenticação.
+  - ⚡ **Busca Paralela:** Consultas assíncronas simultâneas em múltiplas fontes de dados (IEEE, Semantic Scholar, arXiv, PubMed, SciELO, etc.).
+=======
 ## 🚀 Demo Online
 
 A aplicação está hospedada e pode ser acessada publicamente.
