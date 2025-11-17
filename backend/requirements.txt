@@ -9,6 +9,7 @@ aiofiles
 unidecode
 python-multipart
 itsdangerous
+sendgrid
 
 # --- Pacotes de IA ---
 google-genai
