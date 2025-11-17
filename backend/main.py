@@ -1,8 +1,3 @@
-# main.py — AI Academy
-# Autor: Igor Galdino
-# Data: 2025-10-13
-# Versão: 2.6 (Histórico por Usuário no DB)
-
 import os
 import json
 import asyncio
@@ -174,17 +169,12 @@ async def buscar_ieee(client: httpx.AsyncClient, query: str, max_results: int = 
     except httpx.HTTPStatusError as e: logger.warning("IEEE HTTP error: %s", e); return []
     except Exception as e: logger.warning("IEEE error: %s", e); return []
 async def buscar_wikipedia(client: httpx.AsyncClient, query: str, max_results: int = 3) -> List[Dict[str, Any]]:
-    """
-    Busca na Wikipedia usando a API de 'search' (inteligente), 
-    não a API de 'summary' (título exato).
-    """
     try:
-        # 1. USA A API DE PESQUISA (SEARCH)
         url = "https://pt.wikipedia.org/w/api.php"
         params = {
             "action": "query",
             "list": "search",
-            "srsearch": query, # Usa a query original (com "O que é...")
+            "srsearch": query,
             "srlimit": max_results,
             "format": "json"
         }
@@ -201,15 +191,14 @@ async def buscar_wikipedia(client: httpx.AsyncClient, query: str, max_results: i
         results = []
         for item in search_results:
             page_id = item.get("pageid")
-            # O 'snippet' é o resumo da busca, removemos o HTML
             snippet = item.get("snippet", "").replace('<span class="searchmatch">', "").replace('</span>', "")
             
             results.append({
                 "source": "Wikipedia",
                 "title": item.get("title", ""),
-                "url": f"https://pt.wikipedia.org/?curid={page_id}", # Link permanente
+                "url": f"https://pt.wikipedia.org/?curid={page_id}",
                 "abstract": snippet + "...",
-                "authors": [] # Wikipedia não tem autores por artigo
+                "authors": []
             })
         return results
     
