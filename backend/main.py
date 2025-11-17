@@ -36,7 +36,7 @@ try:
 except Exception:
     openai = None
 
- = Path(__file__).resolve().parent
+BASE_DIR = Path(__file__).resolve().parent
 load_dotenv(dotenv_path=BASE_DIR / ".env")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
