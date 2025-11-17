@@ -8,6 +8,7 @@ rich
 aiofiles
 unidecode
 python-multipart
+itsdangerous
 
 # --- Pacotes de IA ---
 google-genai
