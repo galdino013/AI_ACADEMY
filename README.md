@@ -1,43 +1,15 @@
 # 🎓 AI Academy: Assistente de Pesquisa com IA
 
-[](https://www.google.com/search?q=LICENSE)
-[](https://www.google.com/search?q=)
+[](https://opensource.org/licenses/MIT)
+[](https://aiacademy2025.netlify.app/)
 [](https://fastapi.tiangolo.com/)
 [](https://vitejs.dev/)
 [](https://ai.google.dev/)
 [](https://www.sqlalchemy.org/)
 [](https://passlib.readthedocs.io/en/stable/lib/passlib.hash.argon2.html)
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Status](https://img.shields.io/badge/status-em%20desenvolvimento-blue)](https://github.com/galdino013/AI_ACADEMY)
-[![Backend](https://img.shields.io/badge/backend-FastAPI-green)](https://fastapi.tiangolo.com/)
-[![Frontend](https://img.shields.io/badge/frontend-React%20%2B%20Vite-61DAFB)](https://vitejs.dev/)
-[![AI](https://img.shields.io/badge/AI-Google%20Gemini-4285F4)](https://ai.google.dev/)
-
 -----
 
-## 📘 Sobre o Projeto
-
-O **AI Academy** é um assistente de pesquisa inteligente e seguro, projetado para transformar a maneira como estudantes e profissionais interagem com o conhecimento acadêmico. A plataforma agora é um sistema multiusuário completo, onde cada usuário possui uma conta segura e um histórico de pesquisa privado.
-
-A plataforma realiza buscas paralelas em múltiplas fontes de alta credibilidade (IEEE Xplore, Semantic Scholar, arXiv, etc.) e utiliza o poder do Google Gemini para otimizar as perguntas e gerar resumos coesos em português, tornando a pesquisa mais rápida, intuitiva e eficiente.
-
------
-
-<<<<<<< HEAD
-## ✨ Funcionalidades Principais
-
-  - 🚀 **Autenticação Segura (JWT):** Sistema completo de registro (`/users/register`) e login (`/token`). As senhas são protegidas no banco de dados usando hashing **Argon2**, e as sessões são gerenciadas por **JSON Web Tokens (JWT)**.
-  - 🔒 **Rotas Protegidas:** Os endpoints de pesquisa (`/perguntar`) e histórico (`/historico`) são totalmente protegidos. Apenas usuários autenticados com um token válido podem acessá-los.
-  - 📚 **Histórico por Usuário:** Cada usuário tem seu próprio histórico de pesquisa privado, persistido em um banco de dados **SQLite** e vinculado ao seu `user_id`. O histórico de um usuário não é visível para nenhum outro.
-  - 🧠 **Inteligência com Google Gemini:**
-      - **Otimização de Query:** Se a busca inicial falhar, a IA reinterpreta a pergunta e a transforma em termos técnicos para uma segunda tentativa.
-      - **Resumos Agregados:** A IA lê os artigos encontrados e gera um resumo único e coeso em português.
-  - ⚙️ **Arquitetura Moderna:**
-      - **Backend:** Robusto e assíncrono em **FastAPI**, com **SQLAlchemy** gerenciando o banco de dados **SQLite**.
-      - **Frontend:** Reativo e performático construído com **React + Vite**, utilizando **React Context** para gerenciamento de estado de autenticação.
-  - ⚡ **Busca Paralela:** Consultas assíncronas simultâneas em múltiplas fontes de dados (IEEE, Semantic Scholar, arXiv, PubMed, SciELO, etc.).
-=======
 ## 🚀 Demo Online
 
 A aplicação está hospedada e pode ser acessada publicamente.
@@ -48,7 +20,7 @@ A aplicação está hospedada e pode ser acessada publicamente.
 >
 >   * O backend está hospedado no Render.com (plano gratuito) e **"dorme" após 15 minutos de inatividade**.
 >   * A primeira requisição (login ou registro) pode demorar de **30 a 60 segundos** para "acordar" o servidor. Após isso, o site funcionará com velocidade normal.
->   * O banco de dados do deploy é "efêmero", então os usuários de teste são limpos periodicamente. Sinta-se à vontade para criar uma nova conta.
+>   * O banco de dados do deploy é "efêmero" (temporário), então os usuários de teste são limpos periodicamente. Sinta-se à vontade para criar uma nova conta.
 
 -----
 
@@ -63,8 +35,9 @@ A plataforma realiza buscas paralelas em múltiplas fontes de alta credibilidade
 ## ✨ Funcionalidades Principais
 
   * 🚀 **Autenticação Segura (JWT):** Sistema completo de registro (`/users/register`) e login (`/token`). As senhas são protegidas no banco de dados usando hashing **Argon2**, e as sessões são gerenciadas por **JSON Web Tokens (JWT)**.
-  * 🔒 **Rotas Protegidas:** Os endpoints de pesquisa (`/perguntar`) e histórico (`/historico`) são totalmente protegidos. Apenas usuários autenticados com um token válido podem acessá-los.
-  * 📚 **Histórico por Usuário:** Cada usuário tem seu próprio histórico de pesquisa privado, persistido em um banco de dados **SQLite** e vinculado ao seu `user_id`. O histórico de um usuário não é visível para nenhum outro.
+  * 📬 **Confirmação de E-mail:** Novos usuários recebem um e-mail de confirmação (via SendGrid) para ativar suas contas.
+  * 🔒 **Rotas Protegidas:** Os endpoints de pesquisa (`/perguntar`) e histórico (`/historico`) são totalmente protegidos. Apenas usuários autenticados e ativos podem acessá-los.
+  * 📚 **Histórico por Usuário:** Cada usuário tem seu próprio histórico de pesquisa privado, persistido em um banco de dados **SQLite** e vinculado ao seu `user_id`.
   * 🧠 **Inteligência com Google Gemini:**
       * **Otimização de Query:** Se a busca inicial falhar, a IA reinterpreta a pergunta e a transforma em termos técnicos para uma segunda tentativa.
       * **Resumos Agregados:** A IA lê os artigos encontrados e gera um resumo único e coeso em português.
@@ -72,20 +45,17 @@ A plataforma realiza buscas paralelas em múltiplas fontes de alta credibilidade
       * **Backend:** Robusto e assíncrono em **FastAPI**, com **SQLAlchemy** gerenciando o banco de dados **SQLite**.
       * **Frontend:** Reativo e performático construído com **React + Vite**, utilizando **React Context** para gerenciamento de estado de autenticação.
   * ⚡ **Busca Paralela:** Consultas assíncronas simultâneas em múltiplas fontes de dados (IEEE, Semantic Scholar, arXiv, PubMed, SciELO, Wikipedia).
->>>>>>> aab9243f6b9679c9eb6abcd284c98553ad54899f
 
 -----
 
 ## 🛠️ Stack de Tecnologias
 
-  * **Backend:** Python 3.11+, FastAPI, SQLAlchemy (SQLite), Passlib (Argon2), PyJWT (python-jose).
-  * **Frontend:** Node.js 18+, React, Vite, React Router, Axios.
+  * **Backend:** Python 3.11+, FastAPI, SQLAlchemy (SQLite), Passlib (Argon2), PyJWT (python-jose), SendGrid, ItsDangerous.
+  * **Frontend:** Node.js 18+, React, Vite, React Router, Axios, JWT-Decode.
   * **APIs de IA:** Google Gemini (SDK `google-genai`), OpenAI (como fallback).
 
 -----
 
-<<<<<<< HEAD
-=======
 ## 📂 Estrutura do Projeto
 
 O projeto é um "monorepo" contendo duas aplicações principais:
@@ -102,17 +72,18 @@ O projeto é um "monorepo" contendo duas aplicações principais:
 │   ├── models.py     (Tabelas do SQLAlchemy)
 │   ├── schemas.py    (Modelos Pydantic)
 │   ├── security.py   (Hashing e Lógica JWT)
+│   ├── email_service.py (Envio de e-mail com SendGrid)
 │   ├── database.py   (Conexão com o DB)
 │   ├── requirements.txt
-│   └── .env          (Chaves de API)
+│   └── .env          (Chaves de API - IGNORADO PELO GIT)
 └── frontend/
     ├── index.html
     ├── package.json
     ├── vite.config.js
-    ├── .env          (URL da API)
+    ├── .env          (URL da API - IGNORADO PELO GIT)
     ├── public/
     │   ├── _redirects  (Regra do Netlify)
-    │   └── favicon.png
+    │   └── Logo_AI.png
     └── src/
         ├── App.jsx
         ├── main.jsx
@@ -124,20 +95,10 @@ O projeto é um "monorepo" contendo duas aplicações principais:
 
 -----
 
->>>>>>> aab9243f6b9679c9eb6abcd284c98553ad54899f
 ## 🚀 Como Executar Localmente
 
 ### 🔧 Pré-requisitos
 
-<<<<<<< HEAD
-  - Python 3.11+
-  - Node.js 18+ (LTS)
-  - Git (opcional, para clonar)
-
-### 1\. Configuração do Ambiente
-
-1.  Clone o repositório e acesse a pasta raiz `AI_ACADEMY`.
-=======
   * Python 3.11+
   * Node.js 18+ (LTS)
   * Git (opcional, para clonar)
@@ -145,15 +106,11 @@ O projeto é um "monorepo" contendo duas aplicações principais:
 ### 1\. Configuração do Ambiente
 
 1.  Clone o repositório:
-
     ```bash
     git clone https://github.com/galdino013/AI_ACADEMY.git
     cd AI_ACADEMY
     ```
->>>>>>> aab9243f6b9679c9eb6abcd284c98553ad54899f
-
 2.  Crie e ative um ambiente virtual (venv) na pasta raiz:
-
     ```bash
     # Criar o ambiente
     python -m venv venv
@@ -167,21 +124,6 @@ O projeto é um "monorepo" contendo duas aplicações principais:
 
 ### 2\. 🧠 Backend (FastAPI + SQLAlchemy)
 
-<<<<<<< HEAD
-1.  **Acesse a pasta do backend:**
-
-    ```bash
-    cd backend
-    ```
-
-2.  **Instale as dependências do backend:**
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-3.  **Configure o `.env`:**
-=======
 1.  **Instale as dependências do backend:**
     *(O `requirements.txt` está dentro da pasta `backend/`)*
 
@@ -190,7 +132,6 @@ O projeto é um "monorepo" contendo duas aplicações principais:
     ```
 
 2.  **Configure o `.env` do backend:**
->>>>>>> aab9243f6b9679c9eb6abcd284c98553ad54899f
     Crie um arquivo chamado `.env` dentro da pasta `backend/`. Copie o conteúdo abaixo e **preencha com suas chaves de API válidas**.
 
     ```ini
@@ -203,15 +144,21 @@ O projeto é um "monorepo" contendo duas aplicações principais:
     # Chave do Semantic Scholar
     SEMANTIC_SCHOLAR_API_KEY=...
 
-<<<<<<< HEAD
-    # Chave do IEEE
-=======
     # Chave do IEEE (Nota: a aprovação pode demorar)
->>>>>>> aab9243f6b9679c9eb6abcd284c98553ad54899f
     IEEE_API_KEY=...
 
-    # Chave secreta para assinar os Tokens JWT
+    # Chave secreta para assinar os Tokens JWT (Login)
     SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+
+    # Chave secreta para Tokens de Confirmação de E-mail
+    EMAIL_CONFIRMATION_SECRET=E5B9C2F8A3D6E8G1H2J4K5L7M9N0P2Q4R6T8
+
+    # URL do Frontend (para os links de e-mail)
+    FRONTEND_URL=http://localhost:5173
+
+    # Credenciais do SendGrid (para enviar e-mails)
+    SENDGRID_API_KEY=SG....
+    EMAIL_USERNAME=seu-email-verificado@sendgrid.com
 
     # Configs de arquivos
     CACHE_FILE=search_cache.json
@@ -219,13 +166,8 @@ O projeto é um "monorepo" contendo duas aplicações principais:
     API_CONCURRENCY=10
     ```
 
-<<<<<<< HEAD
-4.  **Inicie a API:**
-    Volte para a pasta **raiz** (`cd ..`) e rode o Uvicorn apontando para o módulo `backend.main`:
-=======
 3.  **Inicie a API (a partir da pasta RAIZ):**
     Rode o Uvicorn apontando para o módulo `backend.main`.
->>>>>>> aab9243f6b9679c9eb6abcd284c98553ad54899f
 
     ```bash
     # Estando na pasta AI_ACADEMY (raiz)
@@ -238,22 +180,6 @@ O projeto é um "monorepo" contendo duas aplicações principais:
 
 1.  **Abra um novo terminal** na pasta raiz `AI_ACADEMY`.
 
-<<<<<<< HEAD
-2.  **Acesse a pasta do frontend:**
-
-    ```bash
-    cd frontend
-    ```
-
-3.  **Instale os pacotes (apenas na primeira vez):**
-
-    ```bash
-    npm install
-    ```
-
-4.  **Configure o `.env` do frontend:**
-    Verifique se existe um arquivo `.env` na pasta `frontend/` (ou crie um) que aponte para a URL da sua API:
-=======
 2.  **Acesse a pasta do frontend e instale os pacotes:**
 
     ```bash
@@ -263,24 +189,15 @@ O projeto é um "monorepo" contendo duas aplicações principais:
 
 3.  **Configure o `.env` do frontend:**
     Crie um arquivo `.env` na pasta `frontend/` que aponte para a sua API local:
->>>>>>> aab9243f6b9679c9eb6abcd284c98553ad54899f
 
     ```ini
     VITE_API_URL=http://localhost:8080
     ```
 
-<<<<<<< HEAD
-5.  **Inicie o servidor de desenvolvimento:**
-=======
 4.  **Inicie o servidor de desenvolvimento:**
->>>>>>> aab9243f6b9679c9eb6abcd284c98553ad54899f
 
     ```bash
     npm run dev
     ```
 
-<<<<<<< HEAD
     A aplicação estará disponível em: `http://localhost:5173` (ou outra porta indicada pelo Vite).
-=======
-    A aplicação estará disponível em: `http://localhost:5173` (ou outra porta indicada pelo Vite).
->>>>>>> aab9243f6b9679c9eb6abcd284c98553ad54899f

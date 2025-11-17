@@ -19,6 +19,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/contato" element={<ContatoPage />} />
+      <Route path="/confirm-account" element={<ConfirmAccountPage />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/lab" element={<LabPage />} />
       </Route>

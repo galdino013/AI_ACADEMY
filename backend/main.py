@@ -482,8 +482,6 @@ async def register_user(user: schemas.UserCreate, db: Session = Depends(get_db))
 
     if serializer:
         confirmation_token = serializer.dumps(new_user.id, salt='email-confirm')
-        
-        # ✅ CORREÇÃO: Chama a função síncrona em uma thread
         asyncio.create_task(asyncio.to_thread(
             email_service.send_confirmation_email,
             recipient_email=new_user.email,
