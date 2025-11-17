@@ -15,11 +15,14 @@ function LabPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [isSidebarOpen, setSidebarOpen] = useState(window.innerWidth > 800);
-  const { token, logout, user } = useAuth();
   
+  const { token, logout, user } = useAuth();
   const navigate = useNavigate();
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8080';
+  // Usa a variável de ambiente (VITE_API_URL)
+  const API_URL = import.meta.env.VITE_API_URL;
+  
+  // Define os headers de autenticação
   const authHeaders = {
     headers: {
       Authorization: `Bearer ${token}`
@@ -27,16 +30,17 @@ function LabPage() {
   };
 
   const fetchHistory = useCallback(async () => {
+    if (!token) return; // Não faz nada se não houver token
     try {
       const response = await axios.get(`${API_URL}/historico`, authHeaders);
       setHistory(response.data);
     } catch (err) {
       console.error("Falha ao buscar histórico:", err);
       if (err.response?.status === 401) {
-        logout();
+        logout(); // Desloga se o token for inválido
       }
     }
-  }, [token, logout]); // ✅ Dependências corretas
+  }, [token, logout, API_URL]); // Adiciona API_URL
 
   useEffect(() => {
     fetchHistory();
@@ -53,6 +57,7 @@ function LabPage() {
     if (window.innerWidth < 800) setSidebarOpen(false);
 
     try {
+      // Envia os headers de autenticação
       const response = await axios.post(`${API_URL}/perguntar`, {
         texto: query
       }, authHeaders); 
@@ -61,13 +66,10 @@ function LabPage() {
         pergunta: query,
         resumo_ia: response.data.resumo_ia,
         resultados: response.data.resultados,
-        // O backend agora salva o timestamp, então buscamos o histórico real
       };
       
       setActiveSearch(newSearch);
-      
-      // ✅ CORREÇÃO 2: Busca o histórico real do DB após a pesquisa
-      fetchHistory();
+      fetchHistory(); // Busca o histórico atualizado do DB
       
     } catch (err) {
       const errorMsg = err.response?.data?.detail || 'Ocorreu um erro ao buscar.';
@@ -80,7 +82,7 @@ function LabPage() {
       setIsLoading(false);
       setQuery('');
     }
-  }, [query, token, logout, fetchHistory]); // ✅ Adiciona fetchHistory às dependências
+  }, [query, token, logout, fetchHistory, API_URL]);
   
   const handleHistoryClick = useCallback((item) => {
     setActiveSearch({
@@ -93,7 +95,7 @@ function LabPage() {
   const handleClearHistory = useCallback(async () => {
     if (window.confirm("Você tem certeza que deseja limpar todo o histórico?")) {
       try {
-        await axios.delete(`${API_URL}/historico`, authHeaders);
+        await axios.delete(`${API_URL}/historico`, authHeaders); // Envia os headers
         setHistory([]);
         setActiveSearch({ resumo_ia: '', resultados: [] });
       } catch (err) {
@@ -104,11 +106,11 @@ function LabPage() {
         }
       }
     }
-  }, [token, logout]);
+  }, [token, logout, API_URL]);
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('/login'); // Redireciona para o login
   };
 
   return (
@@ -122,7 +124,6 @@ function LabPage() {
         user={user}
       />
 
-      {/* ✅ CORREÇÃO 1: Usa crases (`) em vez de aspas (') */}
       <main className={`main-content ${isSidebarOpen ? 'main-content-shifted' : ''}`}>
          <button className="menu-toggle" onClick={() => setSidebarOpen(!isSidebarOpen)}>
             <MenuIcon />

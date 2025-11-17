@@ -25,9 +25,6 @@ def send_confirmation_email(recipient_email: str, username: str, confirmation_to
         return
 
     confirmation_link = f"{frontend_url}/confirm-account?token={confirmation_token}"
-    
-    # ✅ NOVO TEMPLATE HTML FUTURISTA
-    # Construído com tabelas para máxima compatibilidade com clientes de e-mail (Outlook, Gmail, etc.)
     html_content = f"""
 <!DOCTYPE html>
 <html lang="pt-BR">
