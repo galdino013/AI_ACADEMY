@@ -1,36 +1,35 @@
-// frontend/src/pages/RegisterPage.jsx
-
 import React, { useState } from 'react';
-import { Link, useNavigate, Navigate } from 'react-router-dom'; // Importe o Navigate
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 import './AuthPage.css';
 import { useAuth } from '../context/AuthContext';
 
 const RegisterPage = () => {
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
-  const { register, error, isAuthenticated } = useAuth(); // Obtenha isAuthenticated
-  
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const { register, error, isAuthenticated, loading } = useAuth(); 
   const navigate = useNavigate();
 
-  // Se o usuário JÁ está logado, redireciona para o lab
   if (isAuthenticated) {
     return <Navigate to="/lab" replace />;
   }
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      alert('As senhas não coincidem!');
+      return;
+    }
 
-    const success = await register(username, password);
+    const success = await register(username, email, password);
 
     if (success) {
-      // ✅ CORREÇÃO AQUI:
-      // Envie a mensagem de sucesso para a página de login
       navigate('/login', { 
-        state: { message: 'Conta criada com sucesso! Faça o login.' } 
+        state: { message: 'Conta criada! Verifique seu e-mail para confirmar a conta.' } 
       });
     }
-    // Se falhar, o 'error' do contexto será exibido
   };
 
   return (
@@ -49,6 +48,19 @@ const RegisterPage = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
+            disabled={loading}
+          />
+        </div>
+        
+        <div className="input-group">
+          <label htmlFor="email">E-mail</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            disabled={loading}
           />
         </div>
         
@@ -60,13 +72,32 @@ const RegisterPage = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            disabled={loading}
+          />
+        </div>
+
+        <div className="input-group">
+          <label htmlFor="confirm-password">Confirmar Senha</label>
+          <input
+            type="password"
+            id="confirm-password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+            disabled={loading}
           />
         </div>
         
-        <button type="submit" className="auth-button">Criar Conta</button>
+        <button type="submit" className="auth-button" disabled={loading}>
+          {loading ? 'Criando Conta...' : 'Criar Conta'}
+        </button>
         
         <p className="auth-switch">
           Já tem uma conta? <Link to="/login">Faça login</Link>
+        </p>
+
+        <p className="auth-switch auth-home">
+          <Link to="/">‹ Voltar à Home</Link>
         </p>
       </form>
     </div>

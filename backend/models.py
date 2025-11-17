@@ -1,5 +1,5 @@
 # models.py
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, JSON
+from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, JSON, Boolean
 from sqlalchemy.orm import relationship
 from .database import Base
 import datetime
@@ -8,11 +8,12 @@ class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True, nullable=False)
+    email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
-    history_items = relationship("HistoryItem", back_populates="owner", cascade="all, delete-orphan")
-
+    is_active = Column(Boolean, default=False)
 class HistoryItem(Base):
     __tablename__ = "history_items"
+    history = relationship("HistoryItem", back_populates="owner")
     id = Column(Integer, primary_key=True, index=True)
     pergunta = Column(String, index=True)
     resumo_ia = Column(Text)

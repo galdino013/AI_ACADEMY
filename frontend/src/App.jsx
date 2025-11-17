@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import { ContatoPage } from './pages/ContatoPage'
+import ConfirmAccountPage from './pages/ConfirmAccountPage';
 
 function App() {
   return (
