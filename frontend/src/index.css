@@ -1,0 +1,73 @@
+/* frontend/src/index.css (Revisado para um reset mais robusto) */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap');
+
+/* Reset universal para garantir que não haja margens/paddings padrão */
+*, *::before, *::after {
+  box-sizing: border-box; /* Inclui padding e border no cálculo de width/height */
+  margin: 0;
+  padding: 0;
+}
+
+/* Garante que o HTML e o elemento raiz do React ocupem 100% da altura e largura */
+html, #root {
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden; /* Previne scroll horizontal acidental */
+}
+
+:root {
+  --font-sans: 'Inter', sans-serif;
+  --bg-dark: #0f1112;
+  --bg-panel: rgba(28, 28, 30, 0.55);
+  --bg-panel-solid: #141416;
+  --text-primary: #eef0f2;
+  --text-secondary: #a9adb2;
+  --border-color: rgba(58, 58, 60, 0.8);
+  --gradient-start: #00e0c6;
+  --gradient-end: #ad53ff;
+  --accent-color: #8ab4f8;
+  --error-color: #f28b82;
+  --hover-bg: #222425;
+  --glass-blur: 8px;
+}
+
+/* Estilos base para o corpo da página */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-dark); /* Fundo padrão escuro para todas as páginas */
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100%; /* Garante que o body também tem 100% de altura */
+  width: 100%; /* Garante que o body também tem 100% de largura */
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.container-center { 
+  max-width: 1200px; 
+  margin: 0 auto; 
+  padding: 0 20px; 
+}
+.small { 
+  font-size: 0.85rem; 
+  color: var(--text-secondary); 
+}
+.btn { 
+  cursor: pointer; 
+  border: none; 
+  padding: 8px 12px; 
+  border-radius: 10px; 
+  font-weight: 600; 
+}
+
+@media (max-width: 800px) {
+  .container-center { padding: 0 12px; }
+}

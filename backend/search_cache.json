@@ -1,0 +1,798 @@
+{
+  "O que e computacao cientifica::arxiv|ieee|pubmed|scielo|semantic_scholar|wikipedia::3": {
+    "_ts": "2025-11-12T02:25:05.595037",
+    "value": [
+      {
+        "source": "Semantic Scholar",
+        "title": "Avaliando eficiência energética em padrões de algoritmos para computação científica e de alto desempenho",
+        "url": "https://www.semanticscholar.org/paper/b918504f4c17201d669976929339422604f6da16",
+        "abstract": "O desenvolvimento de novos algoritmos costuma concentrar-se na melhoria do desempenho, muitas vezes sem dar devida atenção ao impacto ambiental e ao custo energético decorrentes de sua execução. No entanto, esse tema tem recebido crescente atenção recentemente. Este trabalho tem como propósito demonstrar de maneira objetiva o consumo de energia de padrões de programação frequentemente encontrados em programas científicos que exigem alto poder de processamento. A medição do consumo de energia foi realizada por meio de software utilizando a interface RAPL, enquanto outras métricas de desempenho empregaram a contagem de operações executadas e o tempo decorrido. Foram conduzidos testes variando a quantidade de threads utilizadas, as opções de compilação, a quantidade de memória empregada e os processadores usados, com o objetivo de identificar os impactos que essas mudanças causam na eficiência energética. Os resultados evidenciam que a eficiência energética, geralmente, beneficia-se ao utilizar otimizações mais agressivas na compilação, sendo também diretamente influenciada pela escalabilidade do algoritmo.",
+        "authors": [
+          "P. N. M. D. Anjos",
+          "Á. Fazenda"
+        ]
+      },
+      {
+        "source": "Semantic Scholar",
+        "title": "O que dizem e quais as implicações dos estudos sobre egressos dos cursos de Licenciatura em Computação no Brasil?",
+        "url": "https://www.semanticscholar.org/paper/6d32832c104714c8b2cdc39689e01b524e4c5fce",
+        "abstract": "A inserção da computação nas escolas de educação básica do Brasil depende da efetividade das licenciaturas em computação, bem como de ações para formação continuada docente. As avaliações conduzidas no âmbito do Sinaes constituem importante fonte de informações para avaliar o curso e o seu impacto na vida profissional dos egressos, mas não tratam da efetividade dos cursos para a atuação docente nas escolas. O artigo apresenta uma análise da pequena produção científica nacional que trata de investigar os egressos desses cursos e constata a necessidade de ampliar o papel desses estudos para propiciar caminhos para melhoria da efetividade dos cursos. O estudo sugere o fortalecimento do vínculo com egressos, de maneira sistêmica. e estratégica.",
+        "authors": [
+          "M. Brandão",
+          "J. H. C. Fernandes",
+          "J. R. Costa",
+          "R. M. Diniz"
+        ]
+      },
+      {
+        "source": "Semantic Scholar",
+        "title": "ANÁLISE DA PRODUÇÃO CIENTÍFICA NAS ÁREAS DA CIÊNCIAS SOCIAIS E CIÊNCIA DA COMPUTAÇÃO:",
+        "url": "https://www.semanticscholar.org/paper/0f7b6f9cd52205905c74c19dacbf4944c5de63a3",
+        "abstract": "INTRODUÇÃO:  a pesquisa busca verificar a evolução da produção científica acerca do tema gestão de dados de pesquisa com recorte internacional, na base Scopus, a fim de analisar a produção retrospectiva deste tema da ciência da informação. logo, o objetivo da pesquisa é observar se houve um crescimento da produção científica sobre o tema “gestão de dados de pesquisa” e “ciência aberta” nas áreas das ciências sociais e ciência da computação. e justifica em recuperar os principais termos relacionados à gestão e dados de pesquisa e acesso aberto e possibilitar descrever os principais subtemas da evolução do campo por meio de um panorama dos de co-ocorrência de palavras-chave. FUNDAMENTAÇÃO TEÓRICA: Os principais conceitos tratados nesta pesquisa são a “gestão de dados de pesquisa” que pode ser definido como “Conjunto de atividades gerenciais   e   tecnológicas, apoiado  por  políticas  gerais  e específicas destinadas a garantir: arquivamento, curadoria, preservação e oferta de acesso contínuo aos dados de pesquisa” (Silva, Sales, Sayão, Drumond, Maranhão, 2019 ) e o termo “Ciência Aberta” definido por Albagli (2014) “Um termo guarda-chuva, que vai além do acesso livre a publicações científicas e inclui outras frentes, como dados científicos abertos, ferramentas científicas abertas, software científicos abertos, cadernos de laboratórios abertos  e wikipesquisa, ciência cidadã, educação aberta”. METODOLOGIA: A pesquisa de natureza quantitativa descritiva, realiza uma análise Cientométrica. As etapas para a análise: apresentação dos conceitos utilizados na estratégia de busca e definição; no segundo momento a escolha da base de dados e a e a estratégia de busca; a aplicação dos filtros utilizados para recorte temporal (2016-2023); a tipologia documental (artigo); a análise dos dados e os resultados no software VOSViewer por co-ocorrência de palavras-chave. RESULTADOS: A partir de uma delimitação de duas ocorrências mínimas por palavra resultou em um total de 27 palavras divididas entre 68 documentos.  Desse modo, permitiu   pontuar as palavras-chave com   acima de 10 ocorrências que denota a relevância desses termos nos estudos das temáticas “gestão de dados de pesquisa” e “Ciência Aberta” que foram “Research data management”; “open Science”, “information management”. O próximo ponto é a análise da variável “Total Link Strenght”, que conforme Van Eck e Waltman (2022, p.6) “a força total dos vínculos de um item com outros itens”. Diante disso, a análise permite observar uma lista com as palavras total link Strength acima de 20: data curation (25); data sharing (22); human resource management (28); information management (85); open data (35); open Science (70); research data (28); research data managements (76). CONSIDERAÇÕES FINAIS: Diante do discorrido, permitiu observar um aumento das pesquisas em gestão de dados de pesquisa e Ciência Aberta, por meio dos dados coletados e tabulados verificou o aumento da produção científica nesse recorte de seis anos que viabilizou conhecer um panorama dos principais temas de pesquisas abordados nos estudos de Ciência Aberta e gestão de dados e a relação entre os temas por meio das conexões entre termos da pesquisa nas áreas da Social Ciências Sociais (Social Sciences) e Ciência da Computação (Computation Science).",
+        "authors": [
+          "Valquer Gandra",
+          "Alexandre Ribas Semeler"
+        ]
+      }
+    ]
+  },
+  "Attention Is All You Need::arxiv|ieee|pubmed|scielo|semantic_scholar|wikipedia::3": {
+    "_ts": "2025-11-12T03:18:45.064459",
+    "value": [
+      {
+        "source": "Semantic Scholar",
+        "title": "Attention is All you Need",
+        "url": "https://www.semanticscholar.org/paper/204e3073870fae3d05bcbc2f6a8e263d9b72e776",
+        "abstract": "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks in an encoder-decoder configuration. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English-to-German translation task, improving over the existing best results, including ensembles by over 2 BLEU. On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.8 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature. We show that the Transformer generalizes well to other tasks by applying it successfully to English constituency parsing both with large and limited training data.",
+        "authors": [
+          "Ashish Vaswani",
+          "Noam M. Shazeer",
+          "Niki Parmar",
+          "Jakob Uszkoreit",
+          "Llion Jones",
+          "Aidan N. Gomez",
+          "Lukasz Kaiser",
+          "I. Polosukhin"
+        ]
+      },
+      {
+        "source": "Semantic Scholar",
+        "title": "Attention Is All You Need In Speech Separation",
+        "url": "https://www.semanticscholar.org/paper/51c9d4d2f50ac5707c1f889aa97f08350d549132",
+        "abstract": "Recurrent Neural Networks (RNNs) have long been the dominant architecture in sequence-to-sequence learning. RNNs, however, are inherently sequential models that do not allow parallelization of their computations. Transformers are emerging as a natural alternative to standard RNNs, replacing recurrent computations with a multi-head attention mechanism.In this paper, we propose the SepFormer, a novel RNN-free Transformer-based neural network for speech separation. The Sep-Former learns short and long-term dependencies with a multi-scale approach that employs transformers. The proposed model achieves state-of-the-art (SOTA) performance on the standard WSJ0-2/3mix datasets. It reaches an SI-SNRi of 22.3 dB on WSJ0-2mix and an SI-SNRi of 19.5 dB on WSJ0-3mix. The SepFormer inherits the parallelization advantages of Transformers and achieves a competitive performance even when downsampling the encoded representation by a factor of 8. It is thus significantly faster and it is less memory-demanding than the latest speech separation systems with comparable performance.",
+        "authors": [
+          "Cem Subakan",
+          "M. Ravanelli",
+          "Samuele Cornell",
+          "Mirko Bronzi",
+          "Jianyuan Zhong"
+        ]
+      },
+      {
+        "source": "Semantic Scholar",
+        "title": "Channel Attention Is All You Need for Video Frame Interpolation",
+        "url": "https://www.semanticscholar.org/paper/bb4a9650ca3946c70a7e92007cc61dc0dfd75522",
+        "abstract": "Prevailing video frame interpolation techniques rely heavily on optical flow estimation and require additional model complexity and computational cost; it is also susceptible to error propagation in challenging scenarios with large motion and heavy occlusion. To alleviate the limitation, we propose a simple but effective deep neural network for video frame interpolation, which is end-to-end trainable and is free from a motion estimation network component. Our algorithm employs a special feature reshaping operation, referred to as PixelShuffle, with a channel attention, which replaces the optical flow computation module. The main idea behind the design is to distribute the information in a feature map into multiple channels and extract motion information by attending the channels for pixel-level frame synthesis. The model given by this principle turns out to be effective in the presence of challenging motion and occlusion. We construct a comprehensive evaluation benchmark and demonstrate that the proposed approach achieves outstanding performance compared to the existing models with a component for optical flow computation.",
+        "authors": [
+          "Myungsub Choi",
+          "Heewon Kim",
+          "Bohyung Han",
+          "N. Xu",
+          "Kyoung Mu Lee"
+        ]
+      },
+      {
+        "source": "PubMed",
+        "title": "Digital mental health and hidden support: a qualitative analysis of non-suicidal self-injury communities on TikTok.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41112207/",
+        "abstract": "",
+        "authors": [
+          "Martínez-Pastor E",
+          "Blanco-Ruiz M",
+          "Feijóo S"
+        ]
+      },
+      {
+        "source": "PubMed",
+        "title": "Detecting mind wandering via EEG and facial video features.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41073841/",
+        "abstract": "",
+        "authors": [
+          "Tang S",
+          "Jiang C",
+          "Li Z"
+        ]
+      },
+      {
+        "source": "PubMed",
+        "title": "When a model gives you mixed signals: cognitive effects and visual behavior.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41064266/",
+        "abstract": "",
+        "authors": [
+          "Abbad-Andaloussi A",
+          "Franceschetti M",
+          "López HA",
+          "Schreiber C",
+          "Weber B"
+        ]
+      }
+    ]
+  },
+  "O que e um processador::arxiv|ieee|pubmed|scielo|semantic_scholar|wikipedia::3": {
+    "_ts": "2025-11-12T03:35:45.682794",
+    "value": [
+      {
+        "source": "Semantic Scholar",
+        "title": "DESENVOLVIMENTO DE UM PROCESSADOR DE 4 BITS COM CIRCUITOS INTEGRADOS",
+        "url": "https://www.semanticscholar.org/paper/35b2db1bb5a320f95760fbb9efa6063073708867",
+        "abstract": "No decorrer dos últimos anos, com a expansão da indústria de aparelhos eletrônicos, tornou-se necessário o desenvolvimento de microprocessadores cada vez mais velozes e robustos para execução de softwares que necessitem de mais recursos. Nesse contexto se faz necessário repensar a estrutura, bem como, a arquitetura dos processadores que foram desenvolvidos anteriormente. Neste projeto foi construído o protótipo de um processador para a execução de operadores lógicos e de conjuntos que realizam a soma de números binários compostos por, até, 4 bits. O protótipo foi projetado em Arduino, que é um hardware livre, e, os componentes eletrônicos fixados em uma placa de ensaio. Da forma estabelecida, o processador atua como uma calculadora simples que possui a capacidade de executar operações de adição utilizando sistema binário, que é a base do armazenamento, transmissão e processamento de informação em meios digitais. Os resultados das operações efetuadas são, também, apresentados no sistema binário a fim de não retirar o foco do protótipo para as conversões entre os sistemas binários e decimal. Para isso, são utilizados quatro componentes emissores de luz que representam os quatro bits que escrevem o resultado da adição, onde, a luz do componente acesa representa o dígito um e apagada representa o dígito zero. A base do funcionamento deste protótipo não somente recria a estrutura do primeiro processador comercial, mas também serve de base para montagem de sistemas mais complexos.",
+        "authors": [
+          "José Sampaio De Oliveira",
+          "Pedro Jacques De Castro",
+          "Gabriela Ferreira Monteiro"
+        ]
+      },
+      {
+        "source": "Semantic Scholar",
+        "title": "Um Processador Básico para o Ensino de Conceitos de Arquitetura e Organização de Computadores",
+        "url": "https://www.semanticscholar.org/paper/34945221f80181cd9b8d716d1edf3db4b17fa717",
+        "abstract": "",
+        "authors": [
+          "D. Morandi",
+          "Maicon Carlos Pereira",
+          "A. Raabe",
+          "C. A. Zeferino"
+        ]
+      },
+      {
+        "source": "Semantic Scholar",
+        "title": "Arquitetura de um Processador de Aritmética Intervalar Configurável como Processador de Produto Escalar",
+        "url": "https://www.semanticscholar.org/paper/4b06c2e361eba4ecf58b74f6127555ef26844b61",
+        "abstract": "Este trabalho apresenta um Processador de Aritmetica Intervalar que explora o paralelismo inerente as operações sobre intervalos. Este processador e reconfigurável para tratar operações de Produto Escalar com máxima exatidão usando técnicas da Aritmética Computacional Avançada. A implementação do processador é baseada em tecnologia Bit-Slice e microprogramação.",
+        "authors": [
+          "Carlos Marcelo Dias Pazos",
+          "Claúdia Ma. Ribeiro Azevedo",
+          "Márcia de Barros Correia"
+        ]
+      },
+      {
+        "source": "Wikipedia",
+        "title": "Processador",
+        "url": "https://pt.wikipedia.org/?curid=2339969",
+        "abstract": "Processador pode se referir a: Microprocessador - circuito integrado que realiza as funções de cálculo e tomada de decisão de um computador; Unidade central...",
+        "authors": []
+      },
+      {
+        "source": "Wikipedia",
+        "title": "Processador de texto",
+        "url": "https://pt.wikipedia.org/?curid=1474",
+        "abstract": "profissionais, que são mais complexos, tais como: fax, cartas, currículos, ofícios, procurações e apostilas. Um processador de texto é essencialmente um programa...",
+        "authors": []
+      },
+      {
+        "source": "Wikipedia",
+        "title": "Processador (computação)",
+        "url": "https://pt.wikipedia.org/?curid=7114273",
+        "abstract": "Em computação e ciência da computação, um processador ou unidade de processamento é um componente elétrico (circuito digital) que executa operações em...",
+        "authors": []
+      }
+    ]
+  },
+  "nanotecnologia na medicina::arxiv|ieee|pubmed|scielo|semantic_scholar|wikipedia::3": {
+    "_ts": "2025-11-16T21:14:25.279312",
+    "value": [
+      {
+        "source": "Semantic Scholar",
+        "title": "Nanotecnologia na medicina: potenciais avanços no diagnóstico e tratamento do câncer",
+        "url": "https://www.semanticscholar.org/paper/4953e92a4ead03593d3714558f9244cd23470d56",
+        "abstract": "A nanotecnologia é uma técnica moderna no desenvolvimento de materiais e processos inovadores em nanoescala. Sua aplicação é conhecida na medicina como nanomedicina. Essa tecnologia possui a capacidade de melhorar a qualidade de vida das pessoas, em diversas esferas da vida. Sua aplicação na medicina é promissora, especialmente no campo do diagnóstico em oncologia, no qual pesquisas recentes têm revelado a funcionalidade dos nanomateriais como ligantes específicos a biomarcadores de células cancerígenas nos exames de imagens, permitindo assim a detecção precoce da doença e melhor prognóstico.",
+        "authors": [
+          "Thiago Andrews Gonçalves de Sousa",
+          "Vítor José Santos Antunes",
+          "Carlos Silva Santana",
+          "Lucas Toledo Oliva Ferreira Silva",
+          "Márcio Antônio Ribeiro Vieira"
+        ]
+      },
+      {
+        "source": "Semantic Scholar",
+        "title": "APLICAÇÕES DA NANOTECNOLOGIA NA MEDICINA REGENERATIVA",
+        "url": "https://www.semanticscholar.org/paper/a0f29f3ab002822f8f8e41b0731ab5d81b761ae0",
+        "abstract": "A nanotecnologia tem revolucionado a medicina regenerativa, oferecendo abordagens inovadoras para reparar e regenerar tecidos danificados. Este artigo explora as aplicações promissoras da nanotecnologia nesse campo emocionante. Através da manipulação de materiais em escala nanométrica, biomateriais inteligentes são desenvolvidos para direcionar interações celulares e otimizar a resposta biológica. Sistemas avançados de liberação de medicamentos permitem a entrega precisa de terapias, maximizando a eficácia e minimizando os efeitos colaterais. Além disso, a nanotecnologia possibilita a engenharia de tecidos complexos, como matrizes nanofibrilares que mimetizam o ambiente celular nativo. Estratégias de direcionamento de células-tronco para o reparo neural também são exploradas, abrindo novas perspectivas para doenças neurodegenerativas. Resultados de estudos clínicos e pré-clínicos demonstram o potencial terapêutico dessas abordagens, oferecendo esperança para pacientes que sofrem de lesões traumáticas e condições degenerativas. No entanto, desafios regulatórios e de segurança devem ser considerados para garantir a aplicabilidade clínica bem-sucedida. Em resumo, a nanotecnologia na medicina regenerativa está redefinindo o tratamento de doenças complexas e oferecendo soluções inovadoras para a saúde humana.",
+        "authors": [
+          "Pedro Scatuzzi Filho",
+          "M. Costa",
+          "Beatriz Ferreira de Santana",
+          "Wilson Foré",
+          "Mateus Oliveira de Almeida",
+          "Daphne Teodosio de Arruda",
+          "Daniel Nogueira Mendes Braga",
+          "Ana Carla Souza Costa",
+          "Edenilze Teles Romeiro",
+          "Marivânia Garcia da Rocha"
+        ]
+      },
+      {
+        "source": "Semantic Scholar",
+        "title": "NANOTECNOLOGIA NA MEDICINA EQUINA: TRATAMENTOS DE PRECISÃO E FUTURO DA TERAPIA",
+        "url": "https://www.semanticscholar.org/paper/16b700cdb95d3e1a62acbba9c87602aea7203029",
+        "abstract": "",
+        "authors": [
+          "Gabriela Bandeira Tavares Rabelo",
+          "Darllam DA Silva Bezerra"
+        ]
+      },
+      {
+        "source": "Wikipedia",
+        "title": "Nanotecnologia",
+        "url": "https://pt.wikipedia.org/?curid=56521",
+        "abstract": "investigação que recaem sob a égide da nanotecnologia. Embora a nanotecnologia seja um desenvolvimento recente na pesquisa científica, o desenvolvimento...",
+        "authors": []
+      },
+      {
+        "source": "Wikipedia",
+        "title": "Engenharia em nanotecnologia",
+        "url": "https://pt.wikipedia.org/?curid=2330198",
+        "abstract": "rápido na produção de ferramentas para o desenvolvimento tecnológico realizando a convergência de ideias. nanotecnologia na medicina A nanotecnologia molecular...",
+        "authors": []
+      },
+      {
+        "source": "Wikipedia",
+        "title": "Eleni Antoniadou",
+        "url": "https://pt.wikipedia.org/?curid=7298428",
+        "abstract": "na Grécia. Ela estudou Ciência da Computação e Informática Biomédica na Universidade da Grécia Central e obteve Mestrado em Nanotecnologia e Medicina...",
+        "authors": []
+      },
+      {
+        "source": "PubMed",
+        "title": "Changes in Noradrenergic Synthesis and Dopamine Beta-Hydroxylase Activity in Response to Oxidative Stress after Iron-induced Brain Injury.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39105899/",
+        "abstract": "",
+        "authors": [
+          "Verduzco-Mendoza A",
+          "Mota-Rojas D",
+          "Olmos-Hernández A",
+          "Avila-Luna A",
+          "García-García K",
+          "Gálvez-Rosas A",
+          "Hidalgo-Bravo A",
+          "Ríos C",
+          "Parra-Cid C",
+          "Montes S",
+          "García-López J",
+          "Ramos-Languren LE",
+          "Pérez-Severiano F",
+          "González-Piña R",
+          "Bueno-Nava A"
+        ]
+      },
+      {
+        "source": "PubMed",
+        "title": "Nanomolar clodronate induces adenosine accumulation in the perfused rat mesenteric bed and mesentery-derived endothelial cells.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/36744214/",
+        "abstract": "",
+        "authors": [
+          "Donoso MV",
+          "Hernández F",
+          "Barra R",
+          "Huidobro-Toro JP"
+        ]
+      },
+      {
+        "source": "PubMed",
+        "title": "Expression, purification, and refolding of the recombinant extracellular domain β(1)-subunit of the dog Na(+)/K(+)-ATPase of the epithelial cells.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/36057422/",
+        "abstract": "",
+        "authors": [
+          "Roa-Velázquez D",
+          "Xoconostle-Cázares B",
+          "Benítez-Cardoza CG",
+          "Ortega-López J",
+          "Shoshani L",
+          "Morales-Ríos E",
+          "Gallardo-Hernández S"
+        ]
+      }
+    ]
+  },
+  "Arturo Galvez-Rosas[]::arxiv|ieee|pubmed|scielo|semantic_scholar|wikipedia::3": {
+    "_ts": "2025-11-16T21:16:30.573780",
+    "value": [
+      {
+        "source": "Semantic Scholar",
+        "title": "Estudio del microsatélite Rep-1 del gen alfa sinucleína en pacientes con la enfermedad de Parkinson idiopática",
+        "url": "https://www.semanticscholar.org/paper/78f8ee86f53b1f1dd2d5c43d7dbc7225286fedf2",
+        "abstract": "",
+        "authors": [
+          "Cristian G Marroquí-Sánchez",
+          "Rogelio Paniagua-Pérez",
+          "Paul Carrillo-Mora",
+          "José A. Martínez-Cortéz",
+          "Claudia Hernández-Arenas",
+          "S. León-Hernández",
+          "Antonio Verduzco-Mendoza",
+          "A. Olmos-Hernández",
+          "Alberto Ávila-Luna",
+          "Antonio Bueno-Nava",
+          "Arturo Gálvez-Rosas"
+        ]
+      },
+      {
+        "source": "Semantic Scholar",
+        "title": "Aspectos demográficos de pacientes con enfermedad de Parkinson en el Instituto Nacional de Rehabilitación ''Luis Guillermo Ibarra Ibarra'' en la Ciudad de México",
+        "url": "https://www.semanticscholar.org/paper/50b59d15c29b07bbd2e16c100350c3879aaa3048",
+        "abstract": "",
+        "authors": [
+          "Antonio Verduzco-Mendoza",
+          "S. León-Hernández",
+          "Alberto Ávila-Luna",
+          "Antonio Bueno-Nava",
+          "A. Olmos-Hernández",
+          "Arturo Gálvez-Rosas"
+        ]
+      },
+      {
+        "source": "Semantic Scholar",
+        "title": "Environmental enrichment for laboratory rats and mice: endocrine, physiological, and behavioral benefits of meeting rodents' biological needs",
+        "url": "https://www.semanticscholar.org/paper/16b81e6540a69324bbc8db1e558a41f12efc8b1d",
+        "abstract": "Standard housing for laboratory rodents is characterized by cages that do not always provide an adequate environment to meet the animal's behavioral needs. When animals are reared under impoverished conditions, negative states such as boredom and distress might arise. Environmental enrichment (EE) is an alternative to expose rodents to physical, sensory, cognitive, and/or social stimulation greater than the one received under standard housing conditions. The present review aims to discuss the main physiological, endocrine, and behavioral effects of environmental enrichment in murine research models. The positive and negative effects will be addressed, as well as factors including enrichment-related (i.e., type of EE, duration of EE) and animal-related aspects (i.e., strain, sex, or age) that need to be considered by researchers when adopting EE for laboratory rodents. It was observed that EE decreases corticosterone concentrations in rodents, an indication of lower levels of stress. Likewise, tachycardia, hypertension, and shorter heart rate variability are ameliorated with the implementation of EE (reflecting a beneficial effect). Among the behavioral benefits, rodents reared under EE have anti-anxiety characteristics, increased exploratory behavior, and less fear-related responses than standard-housed animals. However, in some cases, increased aggression has been reported. Although there is no standardization for EE, to properly adopt EE in experimental facilities, researchers must consider enrichment- and animal-related factors to improve the welfare of laboratory rodents.",
+        "authors": [
+          "A. Domínguez-Oliva",
+          "I. Hernández-Ávalos",
+          "A. Bueno-Nava",
+          "Cuauhtémoc Chávez",
+          "Antonio Verduzco-Mendoza",
+          "A. Olmos-Hernández",
+          "D. Villanueva-García",
+          "A. Avila-Luna",
+          "P. Mora-Medina",
+          "J. Martínez-Burnes",
+          "A. Gálvez-Rosas",
+          "D. Mota-Rojas"
+        ]
+      },
+      {
+        "source": "Wikipedia",
+        "title": "Claudia Sheinbaum",
+        "url": "https://pt.wikipedia.org/?curid=7055709",
+        "abstract": "adversária, Xóchitl Gálvez. Durante os três debates presidenciais, muitos comentaristas elogiaram sua postura calma diante das provocações de Gálvez. A eleição...",
+        "authors": []
+      },
+      {
+        "source": "Wikipedia",
+        "title": "1899 no Brasil",
+        "url": "https://pt.wikipedia.org/?curid=3938414",
+        "abstract": "instala um posto alfandegário na margem do rio Acre. 14 de julho: Luis Gálvez Rodríguez de Arias proclama a República do Acre, também conhecida como Estado...",
+        "authors": []
+      },
+      {
+        "source": "Wikipedia",
+        "title": "Artur Duarte de Oliveira",
+        "url": "https://pt.wikipedia.org/?curid=7238301",
+        "abstract": "Editora, pp. 335-338 MAIA, João Paulo (16 de junho de 2015). «Artur Oliveira chora com Galvez na final: &quot;Maior emoção do campeonato&quot;». Globo Esporte. Consultado...",
+        "authors": []
+      },
+      {
+        "source": "PubMed",
+        "title": "Environmental enrichment for laboratory rats and mice: endocrine, physiological, and behavioral benefits of meeting rodents' biological needs.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40708998/",
+        "abstract": "",
+        "authors": [
+          "Domínguez-Oliva A",
+          "Hernández-Avalos I",
+          "Bueno-Nava A",
+          "Chávez C",
+          "Verduzco-Mendoza A",
+          "Olmos-Hernández A",
+          "Villanueva-García D",
+          "Avila-Luna A",
+          "Mora-Medina P",
+          "Martínez-Burnes J",
+          "Gálvez-Rosas A",
+          "Mota-Rojas D"
+        ]
+      },
+      {
+        "source": "PubMed",
+        "title": "Thermal imaging in biomedical research: a non-invasive technology for animal models.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40066193/",
+        "abstract": "",
+        "authors": [
+          "Verduzco-Mendoza A",
+          "Olmos-Hernández A",
+          "Bueno-Nava A",
+          "Villanueva-García D",
+          "Domínguez-Oliva A",
+          "Avila-Luna A",
+          "Mora-Medina P",
+          "Gálvez-Rosas A",
+          "Hernández-Ávalos I",
+          "Casas-Alvarado A",
+          "Garnica MA",
+          "Mota-Rojas D"
+        ]
+      },
+      {
+        "source": "PubMed",
+        "title": "Traumatic brain injury, alone or with striatal hemorrhage-like extension, transiently decreases GABA and glutamate levels along motor deficits in the rat striatum: an in vivo study.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39613023/",
+        "abstract": "",
+        "authors": [
+          "Avila-Luna A",
+          "Cruz-Castro R",
+          "Verduzco-Mendoza A",
+          "Olmos-Hernández A",
+          "Gálvez-Rosas A",
+          "Alfaro-Rodríguez A",
+          "Arias-Montaño JA",
+          "Bueno-Nava A"
+        ]
+      }
+    ]
+  },
+  "Artigos sobre o cancer::arxiv|ieee|pubmed|scielo|semantic_scholar|wikipedia::3": {
+    "_ts": "2025-11-16T23:55:33.047784",
+    "value": [
+      {
+        "source": "Semantic Scholar",
+        "title": "Análise das Campanhas de Conscientização sobre o Câncer por meio do Google Trends: Revisão Integrativa da Literatura",
+        "url": "https://www.semanticscholar.org/paper/2b29928b7df8e60f861f645dc43e1fc330fba634",
+        "abstract": "Introdução: As campanhas de conscientização da população sobre o câncer e seus fatores de risco objetivam incentivar as pessoas a terem comportamentos mais saudáveis. É essencial avaliar os resultados dessas campanhas na alteração do interesse e do comportamento da população sobre o tema. Objetivo: Analisar o impacto das campanhas de conscientização dos diferentes tipos de câncer sobre o interesse dos internautas por meio do Google Trends. Método: Revisão integrativa da literatura, incluindo estudos primários que analisaram os impactos das campanhas a partir do Google Trends, disponíveis nas bases PubMed, Scopus, Web of Science e LILACS. Resultados: Dos 179 artigos encontrados, foram incluídos 19 para análise. O impacto das campanhas variou em efetividade, dependendo do tipo de câncer abordado, da região de realização e do alcance. Fatores externos às campanhas tiveram efeito sinérgico ou concorrente no interesse populacional sobre os temas abordados. Conclusão: O aumento do interesse populacional, quando existente, nem sempre se traduziu em maior conscientização sobre as formas de prevenção e diagnóstico do câncer. Devem-se aprimorar as formas de realização das campanhas visando aumentar o interesse populacional sobre o tema e viabilizar mudanças de comportamento de longo prazo.",
+        "authors": [
+          "Fernanda Nardino",
+          "A. T. C. Santos",
+          "Fernando Lopes Tavares de Lima"
+        ]
+      },
+      {
+        "source": "Semantic Scholar",
+        "title": "Conscientização sobre o câncer de mama: revisão de escopo",
+        "url": "https://www.semanticscholar.org/paper/a36d76c8654fffeff12aea2e0bbf6b61d8093bb3",
+        "abstract": "O objetivo foi mapear artigos que discutam se a conscientização do câncer de mama melhora a detecção precoce. Foi realizada uma revisão nas bases de dados do Pubmed, Web of Science, Embase, Science Direct. Apesar da importância do rastreamento nos países de baixa renda, a adesão das mulheres a ele é baixa. Assim, estudos que examinem a sua prática e as barreiras de sua não aceitação são escassos, porém, necessários e importantes. Destacam também a necessidade que as orientações devem levar em consideração o contexto cultural da população a ser assistida.",
+        "authors": [
+          "Raquel de Oliveira Jacometto",
+          "Fernando Castilho Pelloso",
+          "R. Pedroso",
+          "Deise Helena Pelloso Borghesan",
+          "Maria Dalva Barros Carvalho",
+          "Sandra Marisa Pelloso"
+        ]
+      },
+      {
+        "source": "Semantic Scholar",
+        "title": "Conhecimento dos cirurgiões dentista sobre o câncer de boca e orofaringe",
+        "url": "https://www.semanticscholar.org/paper/86e1c749253c18cecf7167de37fe431e2fdf7621",
+        "abstract": "As neoplasias de cabeça e pescoço apresentam um sério problema de saúde pública, devido à altas taxas de incidência prevalência e mortalidade. A intervenção do DC envolve os variados níveis de prevenção, a partir da criação e divulgação de políticas que incentivem a redução dos fatores de risco nos indivíduos e introduzam na população quanto à prevenção e o diagnóstico precoce do câncer de boca e orofantinge, a partir de consultas regulares ao dentista e o autoexame. Diante desse cenário, o objetivo deste estudo foi identificar as evidências disponíveis na literatura sobre o conhecimento dos cirurgiões-dentistas em relação aos fatores de risco e diagnóstico precoce do câncer de boca e orofaringe. Para a construção deste artigo foi feito um levantamento bibliográfico nas bases de dados SciVerse Scopus, Scientific Eletronic Library Online (Scielo), U.S. National Library of Medicine (PUBMED) e ScienceDirect, usando o gerenciador de referências Mendeley. Os artigos foram coletados no período de fevereiro a julho de 2022 e contemplados entre os anos de 2015 a 2022. Os estudos envolvidos nesta revisão bibliográfica, apresentam resultados que evidenciam conhecimento insuficiente e limitado dos profissionais de saúde, sobretudo os CDs acerca do câncer de boca e orofaringe. Essas deficiências foram apontadas em questões como desconhecimento de certos fatores de risco, lacunas relacionadas a uma educação continuada eficiente, bem como deficiência na realização do exame de detecção precoce do câncer de boca/orofaringe. Os resultados desta pesquisa revelam que medidas para diminuir o atraso no diagnóstico devem ser tomadas com foco na informação ao paciente, instrução do profissional e melhorias no sistema de saúde. Por entender que o conhecimento dos CDs é muito importante na cadeia de eventos que leva ao diagnóstico tardio, educação continuada deve ser oferecida e realizada visando a uma melhora do conhecimento sobre câncer de boca e orofaringe.",
+        "authors": [
+          "Geovana Martins Lopes",
+          "M. Rodrigues",
+          "Grace Kelly Martins Carneiro",
+          "Nivia Coelho Venas",
+          "Lucas Dantas Pereira",
+          "Kaio Henrique da Silva Carneiro",
+          "Francine Militão dos Santos",
+          "Danielle da Silva Ribeiro de Freitas",
+          "A. Ribeiro",
+          "Naiara Feijó de Souza"
+        ]
+      },
+      {
+        "source": "Wikipedia",
+        "title": "Câncer",
+        "url": "https://pt.wikipedia.org/?curid=20449",
+        "abstract": " Nota: &quot;Cancro&quot; redireciona para este artigo. Para outros significados, veja Cancro (desambiguação) ou Câncer (desambiguação).  Nota: Não confundir com...",
+        "authors": []
+      },
+      {
+        "source": "Wikipedia",
+        "title": "Cancer",
+        "url": "https://pt.wikipedia.org/?curid=17204",
+        "abstract": "significados, veja Câncer (desambiguação). Câncer (português brasileiro) ou Caranguejo (português europeu) é uma constelação do zodíaco. O genitivo, usado...",
+        "authors": []
+      },
+      {
+        "source": "Wikipedia",
+        "title": "Câncer de próstata",
+        "url": "https://pt.wikipedia.org/?curid=256583",
+        "abstract": "variam amplamente no mundo: o câncer é menos comum no sul e leste da Ásia e mais comum na Europa e Estados Unidos. O câncer é menos comum entre homens...",
+        "authors": []
+      },
+      {
+        "source": "PubMed",
+        "title": "Enhancing rare cancer care in developing countries through patient advocacy: insights from the Desmoid Tumor Brazilian Association.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/39801613/",
+        "abstract": "",
+        "authors": [
+          "Costa PA",
+          "Menezes C",
+          "Bianca Lopes David B",
+          "Garofalo G",
+          "Prudente Barbieri L",
+          "Campos F"
+        ]
+      },
+      {
+        "source": "PubMed",
+        "title": "[Construction and validation of a video about breast cancer for deaf womenConstrucción y validación de un video sobre el cáncer de mama para mujeres sordas].",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40115518/",
+        "abstract": "",
+        "authors": [
+          "Pereira-Gomes JD",
+          "Tomaz-De-Carvalho A",
+          "Sousa-Albuquerque-Brandao MG",
+          "Galindo-Neto NM",
+          "Do-Livramento-Fortes-Figueiredo M",
+          "Ribeiro Mariano-Grimaldi M"
+        ]
+      },
+      {
+        "source": "PubMed",
+        "title": "Effects of dignity therapy on terminally ill patients: a systematic review.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/28198968/",
+        "abstract": "",
+        "authors": [
+          "Donato SC",
+          "Matuoka JY",
+          "Yamashita CC",
+          "Salvetti MG"
+        ]
+      }
+    ]
+  },
+  "Fernando Castilho Pelloso::arxiv|ieee|pubmed|scielo|semantic_scholar|wikipedia::3": {
+    "_ts": "2025-11-16T23:57:07.015860",
+    "value": [
+      {
+        "source": "Semantic Scholar",
+        "title": "Racial and Socioeconomic Disparity in Breast Cancer Mortality: A Systematic Review and Meta-Analysis",
+        "url": "https://www.semanticscholar.org/paper/8b2b85bab5bf52e2f21e5b159f09a3be0d7b8ad0",
+        "abstract": "Simple Summary Breast cancer is a leading cause of death among women worldwide, but survival rates vary significantly depending on race and socioeconomic status. Women from lower-income backgrounds and minority populations often face barriers to early diagnosis and timely treatment, leading to worse clinical outcomes. This study examines racial and socioeconomic disparities in breast cancer mortality and survival, aiming to quantify the impact of these factors through a systematic review and meta-analysis. By analyzing data from multiple studies, we assess how access to healthcare, screening programs, and treatment availability influence survival rates. Our findings highlight the urgent need for policies that improve access to early detection and equitable treatment, particularly for underserved communities. Understanding these disparities can help guide healthcare interventions and research efforts to reduce inequalities in breast cancer outcomes and improve survival rates for vulnerable populations.",
+        "authors": [
+          "Helena Fiats Ribeiro",
+          "F. C. Pelloso",
+          "Beatriz Sousa da Fonseca",
+          "Camila Wohlenberg Camparoto",
+          "M. Carvalho",
+          "Vlaudimir Dias Marques",
+          "Mariá Romanio Bitencourt",
+          "Kely Paviani Stevanato",
+          "Pedro Beraldo Borba",
+          "Deise Helena Pelloso Borghesan",
+          "P. Egger",
+          "A. C. Alarcão",
+          "R. K. N. Cuman",
+          "Isabella Morais Tavares Huber",
+          "M. Consolaro",
+          "Constanza Pujals",
+          "Carlos Laranjeira",
+          "R. B. Pedroso",
+          "S. Pelloso"
+        ]
+      },
+      {
+        "source": "Semantic Scholar",
+        "title": "Mortality of Young Women due to Breast Cancer in Low, Middle and High-Income Countries: Systematic Literature Review and Meta-Analysis",
+        "url": "https://www.semanticscholar.org/paper/55680bd6eccb5acaa8a5e49d7260f60f4e052d0c",
+        "abstract": "Objective: To identify the difference in breast cancer mortality rates among young women according to countries’ economic classification. Methods: A systematic literature review included retrospective studies on breast cancer mortality rates in women aged 20 to 49 years. Databases used were PubMed, Web of Science, Scopus, and Virtual Health Library, with articles selected in English, Portuguese, and Spanish. The study selection and analysis were conducted by two pairs of researchers. Data from 54 countries were extracted, including 39 high-income, 12 upper-middle-income, and 3 lower-middle-income countries. A meta-analysis was performed with the quantitative data from two studies. Results: Six articles met the inclusion criteria. Four were analyzed descriptively due to data diversity, and two were included in the meta-analysis. The pooled mortality rate for high-income countries was 10.2 per 100,000 women (95% CI: 9.8-10.6), while for upper-middle-income countries, it was 15.5 per 100,000 women (95% CI: 14.9-16.1). Lower-middle-income countries had a pooled mortality rate of 20.3 per 100,000 women (95% CI: 19.5-21.1). The decrease in mortality rates in high-income countries was statistically significant (p<0.05). Conclusion: Mortality rates for breast cancer among young women have decreased significantly in high-income countries but have increased in lower-income countries. This disparity underscores the impact of insufficient investment in preventive measures, health promotion, early diagnosis, and treatment on young women’s mortality in lower-income countries.",
+        "authors": [
+          "Juliana Dalcin Donini E Silva",
+          "R. B. Pedroso",
+          "F. C. Pelloso",
+          "M. Carvalho",
+          "Thais Da Silva Santos",
+          "Amanda Carvalho Dutra",
+          "Kely Paviani Stevanato",
+          "Vlaudimir Dias Marques",
+          "Luciano de Andrade",
+          "Daniela Cristina De Medeiros Araújo",
+          "L. dos Santos",
+          "Deise Helena Pelloso Borghesan",
+          "Helena Fiats Ribeiro",
+          "Camila Wohlenberg Canparoto",
+          "Jorge Juarez Vieira Teixeira",
+          "Fernanda Hoffmann Marques",
+          "S. Pelloso"
+        ]
+      },
+      {
+        "source": "Semantic Scholar",
+        "title": "Breast cancer and cervical cancer: a comparison of the period before and during the COVID-19 pandemic",
+        "url": "https://www.semanticscholar.org/paper/35df6f623a450b08849cb4934e220d0b3056e61d",
+        "abstract": "The coronavirus 2019 (COVID-19) pandemic impacted cancer health care in several countries, with delays in the detection and treatment of breast and cervical cancer. The objective of this study is to analyze and compare the screening, diagnosis and treatment of breast and cervical cancer in the pre-COVID period and during the COVID-19 period. Cross-sectional study with secondary data collected from the Mortality Information System (SIM), Hospital Information System (SIH), Ambulatory Information System (SIA) and the Oncology Panel (PO) of breast cancer notifications with ICD C50.0 to C50.9 and cervix ICD C53.0 to C53.9, The analyzed period before the pandemic was from March 1 to October 1, 2019, and during the pandemic from March 1 to October 1, 2020. The period from 2013 to 2022 was also analyzed with the same information, including the number of diagnoses, treatments, and deaths from breast cancer and cervical cancer. The study population consisted of Brazilian women aged 25 to 70 years. In order to compare categorical variables between periods, the Chi-Square or Fisher’s Exact tests, and Mann-Whitney U tests were applied, and the Poisson Regression model was applied to model the number of reported cases of COVID-19 and the amount of procedures. There was a decrease in the number of mammograms and cytopathological exams during COVID-19, as well as a decrease in cases of breast and cervical cancer. The Poisson regression showed that the increase in the number of COVID-19 cases caused a decrease in the number of breast cytopathological examinations, cervical-vaginal cytopathological examinations/microflora and screening, diagnosis, initiation of treatment for breast cancer and deaths from this disease. Meanwhile, in some regions of Brazil, as the number of Covid-19 increased, there was a significantly increase in the number of mammograms performed and cervical cancer diagnoses. The COVID-19 period in 2020 significantly impacted screening, diagnosis, treatment for breast and cervical cancer.",
+        "authors": [
+          "Kely Paviani Stevanato",
+          "Lander Dos Santos",
+          "F. C. Pelloso",
+          "Deise Helena Pelloso Borghesan",
+          "M. Consolaro",
+          "Rosane de Almeida",
+          "Isabela Morais Tavares Huber",
+          "P. Egger",
+          "A. C. Alarcão",
+          "Rebeca Rosa de Souza",
+          "Helena Fiats Ribeiro",
+          "Camila Wohlenberg Camparoto",
+          "Mariá Romanio Bitencourt",
+          "Pedro Beraldo Borba",
+          "Lincoln Luís Silva",
+          "M. D. de Barros Carvalho",
+          "S. Pelloso"
+        ]
+      },
+      {
+        "source": "PubMed",
+        "title": "Disparities in Suicide Mortality Between Indigenous and Non-Indigenous Populations in Southern Brazil (2010-2019).",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/41007457/",
+        "abstract": "",
+        "authors": [
+          "Mestre TF",
+          "Pelloso FC",
+          "Borghesan DHP",
+          "Alarcao ACJ",
+          "Borba PB",
+          "Marques VD",
+          "Egger PA",
+          "Fontes KB",
+          "Musse FCC",
+          "Labbado JA",
+          "Valsecchi EASDS",
+          "Musse JLL",
+          "de Morais ACC",
+          "Pedroso RB",
+          "Pelloso SM",
+          "Carvalho MDB"
+        ]
+      },
+      {
+        "source": "PubMed",
+        "title": "Effect of COVID-19 vaccination on the incidence, lethality and mortality of pregnant and postpartum women.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40627611/",
+        "abstract": "",
+        "authors": [
+          "de Andrade Pereira Silva M",
+          "Pelloso FC",
+          "Carvalho MDB",
+          "Oliveira RR",
+          "Pujals C",
+          "Rossoni SL",
+          "Oliveira NN",
+          "Modesto MMO",
+          "Borghesan DHP",
+          "Alarcão ACJ",
+          "Marques VD",
+          "Consolaro MEL",
+          "Camparoto CW",
+          "Ribeiro HF",
+          "Pelloso SM"
+        ]
+      },
+      {
+        "source": "PubMed",
+        "title": "Racial and Socioeconomic Disparity in Breast Cancer Mortality: A Systematic Review and Meta-Analysis.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40427139/",
+        "abstract": "",
+        "authors": [
+          "Ribeiro HF",
+          "Pelloso FC",
+          "Fonseca BSD",
+          "Camparoto CW",
+          "Carvalho MDB",
+          "Marques VD",
+          "Bitencourt MR",
+          "Stevanato KP",
+          "Borba PB",
+          "Borghesan DHP",
+          "Egger PA",
+          "Alarcão ACJ",
+          "Cuman RKN",
+          "Huber IMT",
+          "Consolaro MEL",
+          "Pujals C",
+          "Laranjeira C",
+          "Pedroso RB",
+          "Pelloso SM"
+        ]
+      }
+    ]
+  },
+  "Quantas calorias tem o brocolis::arxiv|ieee|pubmed|scielo|semantic_scholar|wikipedia::3": {
+    "_ts": "2025-11-16T23:59:10.520620",
+    "value": [
+      {
+        "source": "Wikipedia",
+        "title": "Xanthosoma sagittifolium",
+        "url": "https://pt.wikipedia.org/?curid=357235",
+        "abstract": "energético para cada 100 gramas de talo é de 24 calorias, enquanto que, nas folhas, temos 31 calorias para os mesmos 100 gramas. A taioba, assim como...",
+        "authors": []
+      },
+      {
+        "source": "Wikipedia",
+        "title": "Vegetarianismo",
+        "url": "https://pt.wikipedia.org/?curid=3239316",
+        "abstract": "cereais suficientes para a produzir, porque a conversão de calorias dos cereais em calorias da carne é muito pouco eficiente&quot;. Outro exemplo: segundo a...",
+        "authors": []
+      },
+      {
+        "source": "Wikipedia",
+        "title": "Micronutriente",
+        "url": "https://pt.wikipedia.org/?curid=132006",
+        "abstract": "al. (1992). Esses pesquisadores conseguiram demonstrar que o sabor desagradável de brócolis cultivado sob deficiência de B é causado por aumento do teor...",
+        "authors": []
+      }
+    ]
+  },
+  "Quais os beneficios do brocolis::arxiv|ieee|pubmed|scielo|semantic_scholar|wikipedia::3": {
+    "_ts": "2025-11-17T00:00:16.305564",
+    "value": [
+      {
+        "source": "Semantic Scholar",
+        "title": "QUAIS OS BENEFÍCIOS DA ATIVIDADE FÍSICA EM PACIENTES COM DEPRESSÃO?",
+        "url": "https://www.semanticscholar.org/paper/0961567423034ea33d0bab73f31edfe54eaa6422",
+        "abstract": "Introdução: A depressão é um transtorno mental comum e sério que afeta negativamente a vida de milhões de pessoas ao redor do mundo. A doença pode causar sofrimento significativo e disfunção em diversos aspectos da vida do indivíduo, incluindo o trabalho, escola, relacionamentos e saúde física. Objetivo: apresentar os benefícios da prática de atividades físicas, pois estimulam a liberação de hormônios neurotransmissores responsáveis ​​por promover sensações de contentamento, alegria e tranquilidade em nosso corpo. Metodologia:  Realizou-se uma revisão integrativa da literatura com bases de dados LILACS, SciELO, Pepsico e Manuais do Ministério da Saúde, utilizando os descritores  “Atividade Física”, “Pacientes”, “Depressão” e “Benefícios”. Resultados: Observou-se que a prática de atividade física contribui significativamente para a gestão da depressão, não só melhorando o bem-estar físico, mas também desempenhando um papel fundamental na abordagem terapêutica da doença. Conclusão: Os benefícios da atividade física para pessoas com depressão apresentam resultados positivos e proporcionam uma cultura que incentiva a saúde ao estabelecer um estilo de vida focado na qualidade de vida.",
+        "authors": [
+          "Bruno Rafael Rodrigues Bulcão",
+          "Luiz Rodrigues Veras Barros",
+          "Regiane da Silva Barros",
+          "Vanderleia Pereira de Sousa",
+          "Vitor Ferreira Matos"
+        ]
+      },
+      {
+        "source": "Semantic Scholar",
+        "title": "NUTRIÇÃO NO CLIMATÉRIO: QUAIS OS BENEFÍCIOS? REVISÃO INTEGRATIVA",
+        "url": "https://www.semanticscholar.org/paper/fc18dc67e8773280b04d7e5eb87c9a1c291a1914",
+        "abstract": "Introdução: A menopausa é uma fase transitória entre o período reprodutivo para o período não fértil na vida da mulher, sendo dividido em três períodos:  pré-menopausa, perimenopausa e pós-menopausa, podendo durar de 12 meses a 03 anos. A nutrição e a alimentação possuem um importante papel durante esse período, visando evitar ou minimizar problemas como: osteoporose, constipação, desidratação, hipertensão, ansiedade, diminuição da libido, depressão, alterações no sono, dores nas articulações e ganho de peso. Objetivo: Descrever os possíveis benefícios relacionados à nutrição durante o climatério Metodologia:  Revisão da literatura que utilizou as bases de dados Biblioteca Virtual em Saúde (BVS), National Library of Medicine (PubMed) e Scientific Electronic Library Online (Scielo), por meio dos Descritores em Ciência da Saúde (DeCS) “Diet”, “Climacteric” combinados com o operador booleano AND. Nossa pesquisa considerou estudos originais publicados nos últimos cinco anos, tanto de acesso livre quanto restrito, sem restrição de idioma. Excluímos revisões, duplicatas e artigos não relacionados ao tema. Encontramos um total de 122 artigos com os descritores utilizados e selecionamos 19 para a amostra desta revisão. Resultados: Observou-se uma perda de peso significativa entre as mulheres no climatério, assim como ondas de calor em decorrência dos sintomas da menopausa. A compulsão alimentar dos grupos randomizados mostrou-se baixa bem como a pressão arterial. Pode-se constatar, ainda, que o IMC dessas mulheres apresentou declínio e os sintomas relacionados à depressão igualmente registraram uma redução.  Conclusões: A intervenção nutricional no climatério resultou em benefícios significativos, incluindo perda de peso, redução dos sintomas da menopausa, melhora da saúde cardiovascular, diminuição do IMC e alívio dos sintomas relacionados à depressão. Esses resultados destacam a importância da nutrição como uma abordagem eficaz para melhorar a qualidade de vida das mulheres nessa fase de transição.",
+        "authors": [
+          "Islania Fablicia",
+          "Kellen França",
+          "Odiomara Telésforo",
+          "Jamilly Lobo"
+        ]
+      },
+      {
+        "source": "Semantic Scholar",
+        "title": "ARTES MARCIAIS MISTAS NA EDUCAÇÃO FÍSICA ESCOLAR: QUAIS OS BENEFÍCIOS?",
+        "url": "https://www.semanticscholar.org/paper/e0b9261d13b3c72f39586472ea63d11bdb6ad65d",
+        "abstract": "O estudo teve como objetivo evidenciar os benefícios da implementação do MMA na Educação Física Escolar. Trata-se de uma revisão narrativa da literatura, de caráter descritivo e exploratório, baseada na análise de artigos publicados entre 2018 e 2024. A busca foi realizada no Google Acadêmico, por meio das palavras-chave, resultando em 394 estudos, dos quais 14 foram selecionados para análise detalhada. Os resultados indicam que a inserção do MMA no ambiente escolar proporciona melhorias na progressão motora, estabilidade postural e resistência corporal, além de estimular hábitos saudáveis ​​e reduzir a inatividade física. No âmbito comportamental, a prática das artes marciais contribui para o desenvolvimento da autodisciplina, controle emocional, resiliência e respeito interpessoal, aspectos fundamentais para o ambiente escolar. No entanto, ressalta-se a necessidade de capacitação docente para a implementação segura e pedagógica do MMA, garantindo sua adaptação ao contexto educacional. Conclui-se que, quando planejadas e supervisionadas, as artes marciais podem ser aliadas estratégicas no desenvolvimento físico, cognitivo e social dos estudantes, promovendo uma formação mais completa.",
+        "authors": [
+          "Odcleyson Pereira dos Santos",
+          "Halline Cardoso Jurema"
+        ]
+      },
+      {
+        "source": "Wikipedia",
+        "title": "Isotiocianato",
+        "url": "https://pt.wikipedia.org/?curid=1469978",
+        "abstract": "couve-flor, o repolho, brócolis, couve-manteiga e couve de bruxelas, por exemplo. isocianatos - análogo com oxigênio no lugar do enxofre tiocianatos -...",
+        "authors": []
+      },
+      {
+        "source": "Wikipedia",
+        "title": "Vegetarianismo",
+        "url": "https://pt.wikipedia.org/?curid=3239316",
+        "abstract": "eles: a soja, o cânhamo e as nozes. Os legumes de folhas verdes escuras (por exemplo espinafres, salsa, brócolis), e as algas, contêm pequenas quantidades...",
+        "authors": []
+      },
+      {
+        "source": "Wikipedia",
+        "title": "Gesso agrícola",
+        "url": "https://pt.wikipedia.org/?curid=7700696",
+        "abstract": "nutrientes: O cálcio fortalece as estruturas celulares de hortaliças como brócolis, couve-flor e pimentão, reduzindo problemas como podridão apical em tomates...",
+        "authors": []
+      },
+      {
+        "source": "PubMed",
+        "title": "Social networks in nursing work processes: an integrative literature review.",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/28327878/",
+        "abstract": "",
+        "authors": [
+          "Mesquita AC",
+          "Zamarioli CM",
+          "Fulquini FL",
+          "Carvalho EC",
+          "Angerami EL"
+        ]
+      }
+    ]
+  }
+}

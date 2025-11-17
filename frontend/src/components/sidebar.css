@@ -1,0 +1,127 @@
+.sidebar {
+  width: 280px; 
+  background-color: var(--bg-panel-solid); 
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-right: 1px solid var(--border-color); 
+  transition: transform 0.3s ease-in-out; 
+  transform: translateX(-100%); 
+  position: fixed;
+  height: 100vh;
+  z-index: 100; 
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4); 
+}
+
+.sidebar-open {
+  transform: translateX(0%); 
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 15px; 
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 20px;
+}
+
+.sidebar-header h2 {
+  font-size: 1.75rem; 
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.sidebar-user {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  background-color: var(--hover-bg);
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-top: 8px;
+}
+
+.history-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1; 
+  overflow-y: auto; 
+  margin-bottom: 20px;
+}
+
+.history-item {
+  background-color: var(--bg-panel); 
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  transition: background-color 0.2s ease, border-color 0.2s ease; 
+  border: 1px solid transparent; 
+}
+
+.history-item:hover {
+  background-color: var(--hover-bg); 
+  border-color: var(--accent-color); 
+}
+
+.history-list p.small {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.sidebar-footer {
+  margin-top: auto; 
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.clear-history-btn {
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid var(--border-color);
+  background-color: transparent;
+  color: var(--text-primary);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  
+  text-decoration: none; 
+  display: block; 
+  text-align: center; 
+  box-sizing: border-box; 
+
+  margin-bottom: 0 !important; 
+}
+
+.clear-history-btn:hover {
+  background-color: var(--hover-bg);
+  border-color: var(--accent-color); 
+}
+
+.home-link {
+  
+ 
+}
+
+.clear-btn {
+ 
+}
+
+.logout-btn {
+  border-color: var(--error-color); 
+  color: var(--error-color);
+  margin-top: 0 !important;
+}
+
+.logout-btn:hover {
+  background-color: rgba(242, 139, 130, 0.1); 
+}

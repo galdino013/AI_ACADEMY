@@ -1,0 +1,111 @@
+/* src/pages/ContatoPage.css (ATUALIZADO PARA FLIP CARDS) */
+
+@import './LandingPage.css';
+
+.contato-container {
+    width: 100%;
+    max-width: 900px; 
+}
+
+
+.profile-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px; 
+    margin-top: 60px;
+    padding-bottom: 80px; 
+}
+
+
+.profile-card-container {
+    width: 250px;
+    height: 250px;
+    perspective: 1000px; 
+    cursor: pointer;
+}
+
+
+.profile-card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.7, 0, 0.3, 1); 
+}
+
+
+.profile-card-container:hover .profile-card-inner {
+    transform: rotateY(180deg);
+}
+
+
+.profile-card-front,
+.profile-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; 
+    
+  
+    border-radius: 50%;
+    overflow: hidden; 
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* A FRENTE (Foto) */
+.profile-card-front {
+    background-color: var(--bg-panel);
+    color: white;
+}
+
+.profile-card-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+.profile-name-tag {
+    position: absolute;
+    bottom: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 15px;
+    font-weight: 500;
+}
+
+/* O VERSO (Links) */
+.profile-card-back {
+    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+    color: white;
+    transform: rotateY(180deg); 
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box; 
+}
+
+.profile-card-back h3 {
+    margin: 0 0 20px 0;
+    font-size: 1.4rem;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 25px; 
+}
+
+.social-links a {
+    color: white;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+}
+
+.social-links a:hover {
+    transform: scale(1.2); 
+}
