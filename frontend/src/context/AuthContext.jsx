@@ -7,6 +7,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8080';
 const AuthContext = createContext();
 
 const actionTypes = {
+  SET_LOADING: 'SET_LOADING',
   LOGIN_SUCCESS: 'LOGIN_SUCCESS',
   LOGOUT: 'LOGOUT',
   REGISTER_SUCCESS: 'REGISTER_SUCCESS',
@@ -19,11 +20,17 @@ const initialState = {
   isAuthenticated: !!localStorage.getItem('token'),
   user: localStorage.getItem('token') ? jwtDecode(localStorage.getItem('token')).sub : null,
   error: null,
-  loading: false, // Adicionando estado de loading
+  loading: false,
 };
 
 const authReducer = (state, action) => {
   switch (action.type) {
+    case actionTypes.SET_LOADING:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
     case actionTypes.LOGIN_SUCCESS:
       const user = jwtDecode(action.payload.token).sub;
       return {
@@ -69,9 +76,8 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   const login = async (username, password) => {
+    dispatch({ type: actionTypes.SET_LOADING });
     try {
-      dispatch({ type: actionTypes.CLEAR_ERROR });
-      
       const params = new URLSearchParams();
       params.append('username', username);
       params.append('password', password);
@@ -98,12 +104,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async (username, email, password) => {
+    dispatch({ type: actionTypes.SET_LOADING });
     try {
-      dispatch({ type: actionTypes.CLEAR_ERROR });
-      
       await axios.post(`${API_URL}/users/register`, {
         username: username,
-        email: email, // Corrigido: Enviando o email
+        email: email,
         password: password,
       });
 
