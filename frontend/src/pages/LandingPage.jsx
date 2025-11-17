@@ -13,14 +13,16 @@ export const LandingPage = () => {
     <>
       <div className="gradient-background-container"></div>
       <div className="landing-container">
-        <header className="landing-header">
-          <div className="logo">
-            <img 
-              src={logoImage} 
-              alt="AI Academy Logo" 
-              style={{ height: '40px' }}
-            />
-          </div>
+        <header className="landing-header">
+          <Link to="/" className="logo-link" aria-label="Voltar para a Página Principal">
+            <div className="logo">
+              <img 
+                src={logoImage} 
+                alt="AI Academy Logo" 
+                style={{ height: '40px' }}
+              />
+            </div>
+          </Link>
           <nav>
             <Link to="/sobre">Sobre</Link>
             <Link to="/funcionalidades">Funcionalidades</Link>
