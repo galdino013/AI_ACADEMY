@@ -24,7 +24,6 @@ A plataforma realiza buscas paralelas em múltiplas fontes de alta credibilidade
 
 -----
 
-<<<<<<< HEAD
 ## ✨ Funcionalidades Principais
 
   - 🚀 **Autenticação Segura (JWT):** Sistema completo de registro (`/users/register`) e login (`/token`). As senhas são protegidas no banco de dados usando hashing **Argon2**, e as sessões são gerenciadas por **JSON Web Tokens (JWT)**.
