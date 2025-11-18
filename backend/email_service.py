@@ -7,15 +7,10 @@ from pathlib import Path
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
-# Carrega o .env a partir da pasta 'backend'
 BASE_DIR = Path(__file__).resolve().parent
 load_dotenv(dotenv_path=BASE_DIR / ".env") 
-
-# Pega o logger definido no main.py
 logger = logging.getLogger("ai_academy")
-
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
-# Este é o e-mail que você verificou no SendGrid (Single Sender Verification)
 FROM_EMAIL = os.getenv("EMAIL_USERNAME") 
 
 def send_confirmation_email(recipient_email: str, username: str, confirmation_token: str, frontend_url: str):
@@ -101,7 +96,7 @@ def send_confirmation_email(recipient_email: str, username: str, confirmation_to
     
     # Cria o objeto de e-mail do SendGrid
     message = Mail(
-        from_email=(f"AI Academy <{FROM_EMAIL}>", FROM_EMAIL), # Nome "De" profissional
+        from_email=(f"AI Academy <{FROM_EMAIL}>", FROM_EMAIL),
         to_emails=recipient_email,
         subject='Confirme sua conta no AI Academy',
         html_content=html_content
@@ -109,7 +104,6 @@ def send_confirmation_email(recipient_email: str, username: str, confirmation_to
 
     try:
         sg = SendGridAPIClient(SENDGRID_API_KEY)
-        # sg.send() é síncrono (bloqueante), por isso é chamado em uma thread no main.py
         response = sg.send(message)
         
         logger.info(f"E-mail de confirmação enviado para {recipient_email}, status: {response.status_code}")

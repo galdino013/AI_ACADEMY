@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import './AuthPage.css'; 
 
-const API_BASE_URL = 'https://aiacademy2025.netlify.app/';
+const API_URL = import.meta.env.VITE_API_URL;
 const ConfirmAccountPage = () => {
   const [searchParams] = useSearchParams();
   const [message, setMessage] = useState('Confirmando sua conta...');

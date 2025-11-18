@@ -63,8 +63,7 @@ DEFAULT_HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Appl
 GEMINI_MODELS = ["gemini-2.5-flash"]
 
 EMAIL_CONFIRMATION_SECRET = os.getenv("EMAIL_CONFIRMATION_SECRET")
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
-
+BACKEND_URL = os.getenv("BACKEND_URL")
 serializer = None
 if EMAIL_CONFIRMATION_SECRET:
     serializer = URLSafeTimedSerializer(EMAIL_CONFIRMATION_SECRET)
@@ -97,7 +96,7 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="AI Academy - Backend Profissional", version="2025.11.07 (v2.8)")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://aiacademy2025.netlify.app", "http://localhost:5173"],
+    allow_origins=["https://aiacademy2025.netlify.app", "http://localhost:5173", "http://127.0.0.1:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
