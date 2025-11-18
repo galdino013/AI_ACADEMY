@@ -47,7 +47,7 @@ GEMINI_MODELS = ["gemini-2.5-flash"]
 
 console = Console()
 logging.basicConfig(level="INFO", format="%(message)s", datefmt="[%X]", handlers=[RichHandler(console=console)])
-logger = logging.ggetLogger("ai_academy")
+logger = logging.getLogger("ai_academy")
 logger.setLevel(logging.INFO)
 models.Base.metadata.create_all(bind=engine)
 
