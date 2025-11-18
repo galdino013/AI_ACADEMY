@@ -1,7 +1,3 @@
-# main.py — AI Academy
-# Autor: Igor Galdino
-# Versão: 2.9 (Captura IntegrityError no Registro e corrige NameError)
-
 import os
 import json
 import asyncio
@@ -14,44 +10,29 @@ import httpx
 import xmltodict
 import aiofiles
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Response, Depends, status, Query
+from fastapi import FastAPI, HTTPException, Response, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from rich.logging import RichHandler
 from rich.console import Console
 from unidecode import unidecode
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from . import models, crud, schemas, security
+from .import models, crud, schemas, security  
 from pathlib import Path
 from .database import engine, SessionLocal
 from sqlalchemy.orm import Session
-from . import email_service
-from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
-from sqlalchemy.exc import IntegrityError # ✅ 1. Importe o IntegrityError
-
-# Logger definido no topo
-console = Console()
-logging.basicConfig(level="INFO", format="%(message)s", datefmt="[%X]", handlers=[RichHandler(console=console)])
-logger = logging.getLogger("ai_academy")
-logger.setLevel(logging.INFO)
 
 try:
     from google import genai as google_genai_sdk
-except Exception as e:
-    logger.warning(f"⚠️ Aviso: SDK 'google-genai' não pôde ser importado: {e}")
+except Exception:
     google_genai_sdk = None
 try:
     import openai
-except Exception as e:
-    logger.warning(f"⚠️ Aviso: SDK 'openai' não pôde ser importado: {e}")
+except Exception:
     openai = None
 
-# --------------------------
-# CONFIGURAÇÃO INICIAL
-# --------------------------
 BASE_DIR = Path(__file__).resolve().parent
 load_dotenv(dotenv_path=BASE_DIR / ".env")
-
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 SEMANTIC_API_KEY = os.getenv("SEMANTIC_SCHOLAR_API_KEY")
@@ -61,86 +42,47 @@ CACHE_TTL_MINUTES = int(os.getenv("CACHE_TTL_MINUTES", "60"))
 MAX_HISTORY = int(os.getenv("MAX_HISTORY", "200"))
 API_CONCURRENCY = int(os.getenv("API_CONCURRENCY", "10")) 
 DEFAULT_HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
-GEMINI_MODELS = ["gemini-2.5-flash"]
+GEMINI_MODELS = ["gemini-2.5-flash"] 
 
-EMAIL_CONFIRMATION_SECRET = os.getenv("EMAIL_CONFIRMATION_SECRET")
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173") 
-logger.info(f"FRONTEND_URL CARREGADA: {FRONTEND_URL}")
-
-serializer = None
-if EMAIL_CONFIRMATION_SECRET:
-    serializer = URLSafeTimedSerializer(EMAIL_CONFIRMATION_SECRET)
-    logger.info("Serializador de tokens de e-mail configurado.")
-else:
-    logger.error("‼️ EMAIL_CONFIRMATION_SECRET não configurada. Confirmação de e-mail desabilitada (usuários serão ativados automaticamente).")
-
-genai_client = None
 if google_genai_sdk and GEMINI_API_KEY:
-    try:
-        genai_client = google_genai_sdk.Client()
-        logger.info("Google GenAI SDK inicializado com sucesso.")
-    except Exception as e:
-        logger.warning(f"⚠️ Aviso: Falha ao instanciar 'genai.Client()': {e}")
-        google_genai_sdk = None
-else:
-    logger.warning("Google GenAI SDK ou API Key não configurados.")
-    google_genai_sdk = None
+    try: genai_client = google_genai_sdk.Client()
+    except Exception as e: print(f"⚠️ Aviso: Falha ao instanciar 'genai.Client()': {e}"); genai_client = None; google_genai_sdk = None
+else: genai_client = None; google_genai_sdk = None
+if openai and OPENAI_API_KEY: pass
+else: openai = None
 
-if openai and OPENAI_API_KEY:
-    pass
-else:
-    openai = None
-
+console = Console()
+logging.basicConfig(level="INFO", format="%(message)s", datefmt="[%X]", handlers=[RichHandler(console=console)])
+logger = logging.getLogger("ai_academy")
+logger.setLevel(logging.INFO)
 models.Base.metadata.create_all(bind=engine)
-
-# --------------------------
-# FASTAPI APP
-# --------------------------
-app = FastAPI(title="AI Academy - Backend Profissional", version="2025.11.07 (v2.9)")
+app = FastAPI(title="AI Academy - Backend Profissional", version="2025.11.18 (v2.7)")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://aiacademy2025.netlify.app", "http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# --------------------------
-# DEPENDÊNCIAS DE AUTH E DB
-# --------------------------
 def get_db():
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
-
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
 async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> models.User:
     credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
+        status_code=401,
         detail="Não foi possível validar as credenciais",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    token_data = security.verify_token(token, credentials_exception)
+    token_data = security.verify_token(token, credentials_exception) 
     user = crud.get_user_by_username(db, username=token_data.username)
     if user is None:
         raise credentials_exception
-    
-    if not user.is_active:
-        if EMAIL_CONFIRMATION_SECRET:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="Conta inativa. Por favor, confirme seu e-mail.",
-                headers={"WWW-Authenticate": "Bearer"},
-            )
     return user
-
-# --------------------------
-# (Modelos Pydantic, Cache, Helpers, Funções de Busca...)
-# O código abaixo está compactado, mas é idêntico ao anterior
-# --------------------------
 class PerguntaUsuario(BaseModel):
     texto: str = Field(..., min_length=1, description="Pergunta ou termo de pesquisa do usuário.")
     fontes: Optional[List[str]] = Field(None, description="Lista de fontes a consultar. Se omitido, todas serão usadas.")
@@ -158,12 +100,14 @@ async def _load_cache() -> Dict[str, Any]:
             async with aiofiles.open(CACHE_FILE, "r", encoding="utf-8") as f:
                 content = await f.read(); return json.loads(content) if content else {}
     except Exception as e: logger.warning("Falha ao ler cache: %s", e); return {}
+
 async def _save_cache(cache: Dict[str, Any]):
     try:
         async with _cache_lock:
             async with aiofiles.open(CACHE_FILE, "w", encoding="utf-8") as f:
                 await f.write(json.dumps(cache, ensure_ascii=False, indent=2))
     except Exception as e: logger.warning("Falha ao salvar cache: %s", e)
+
 async def cache_get(key: str):
     cache = await _load_cache(); item = cache.get(key)
     if not item: return None
@@ -173,12 +117,15 @@ async def cache_get(key: str):
             cache.pop(key, None); await _save_cache(cache); return None
     except Exception: return None
     return item.get("value")
+
 async def cache_set(key: str, value: Any):
     cache = await _load_cache(); cache[key] = {"_ts": datetime.utcnow().isoformat(), "value": value}; await _save_cache(cache)
 METRICS = {"queries": 0, "cache_hits": 0, "last_query_time": None}
+
 def normalize_query(q: str) -> str:
     if not q: return ""
     return unidecode(q).replace("?", "").strip()
+
 async def retry_async(fn, *args, retries: int = 2, delay: float = 0.8, backoff: float = 2.0, **kwargs):
     attempt = 0
     while True:
@@ -187,6 +134,7 @@ async def retry_async(fn, *args, retries: int = 2, delay: float = 0.8, backoff: 
             attempt += 1; logger.debug("Retry %s/%s for %s due to %s", attempt, retries, fn.__name__, e)
             if attempt > retries: raise
             await asyncio.sleep(delay); delay *= backoff
+
 def dedupe_results(results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     seen = set(); out = []
     for r in results:
@@ -195,6 +143,7 @@ def dedupe_results(results: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
         if key in seen: continue
         seen.add(key); out.append(r)
     return out
+
 async def buscar_semantic_scholar(client: httpx.AsyncClient, query: str, max_results: int = 3) -> List[Dict[str, Any]]:
     if not SEMANTIC_API_KEY: return []
     try:
@@ -206,6 +155,7 @@ async def buscar_semantic_scholar(client: httpx.AsyncClient, query: str, max_res
         return results
     except httpx.HTTPStatusError as e: logger.warning("Semantic Scholar HTTP error: %s", e); return []
     except Exception as e: logger.warning("Semantic Scholar error: %s", e); return []
+
 async def buscar_ieee(client: httpx.AsyncClient, query: str, max_results: int = 3) -> List[Dict[str, Any]]:
     if not IEEE_API_KEY: return []
     try:
@@ -220,20 +170,43 @@ async def buscar_ieee(client: httpx.AsyncClient, query: str, max_results: int = 
         return results
     except httpx.HTTPStatusError as e: logger.warning("IEEE HTTP error: %s", e); return []
     except Exception as e: logger.warning("IEEE error: %s", e); return []
+
 async def buscar_wikipedia(client: httpx.AsyncClient, query: str, max_results: int = 3) -> List[Dict[str, Any]]:
     try:
-        url = "https://pt.wikipedia.org/w/api.php"; params = {"action": "query", "list": "search", "srsearch": query, "srlimit": max_results, "format": "json"}
-        resp = await client.get(url, params=params, headers=DEFAULT_HEADERS, timeout=10); resp.raise_for_status()
-        data = resp.json(); search_results = data.get("query", {}).get("search", [])
+        url = "https://pt.wikipedia.org/w/api.php"
+        params = {
+            "action": "query",
+            "list": "search",
+            "srsearch": query, 
+            "srlimit": max_results,
+            "format": "json"
+        }
+        resp = await client.get(url, params=params, headers=DEFAULT_HEADERS, timeout=10)
+        resp.raise_for_status()
+        data = resp.json()
+        search_results = data.get("query", {}).get("search", [])
         if not search_results:
-            logger.debug("Wikipedia search: Nenhum resultado para '%s'", query); return []
+            logger.debug("Wikipedia search: Nenhum resultado para '%s'", query)
+            return []
         results = []
         for item in search_results:
-            page_id = item.get("pageid"); snippet = item.get("snippet", "").replace('<span class="searchmatch">', "").replace('</span>', "")
-            results.append({"source": "Wikipedia", "title": item.get("title", ""), "url": f"https://pt.wikipedia.org/?curid={page_id}", "abstract": snippet + "...", "authors": []})
+            page_id = item.get("pageid")
+            snippet = item.get("snippet", "").replace('<span class="searchmatch">', "").replace('</span>', "")
+            results.append({
+                "source": "Wikipedia",
+                "title": item.get("title", ""),
+                "url": f"https://pt.wikipedia.org/?curid={page_id}", 
+                "abstract": snippet + "...",
+                "authors": [] 
+            })
         return results
-    except httpx.HTTPStatusError as e: logger.debug("Wikipedia search API status error: %s", e); return []
-    except Exception as e: logger.debug("Wikipedia search API error: %s", e); return []
+    except httpx.HTTPStatusError as e:
+        logger.debug("Wikipedia search API status error: %s", e)
+        return []
+    except Exception as e:
+        logger.debug("Wikipedia search API error: %s", e)
+        return []
+    
 async def buscar_arxiv(client: httpx.AsyncClient, query: str, max_results: int = 3) -> List[Dict[str, Any]]:
     try:
         url = "https://export.arxiv.org/api/query"; params = {"search_query": f'all:"{query}"', "start": 0, "max_results": max_results}
@@ -249,6 +222,7 @@ async def buscar_arxiv(client: httpx.AsyncClient, query: str, max_results: int =
             results.append({"source": "arXiv", "title": (e.get("title") or "").strip(), "url": (e.get("id") or ""), "abstract": (e.get("summary") or "").strip().replace("\n", " "), "authors": authors})
         return results
     except Exception as e: logger.debug("arXiv error: %s", e); return []
+
 async def buscar_pubmed(client: httpx.AsyncClient, query: str, max_results: int = 3) -> List[Dict[str, Any]]:
     try:
         url_search = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"; params = {"db": "pubmed", "term": query, "retmax": max_results, "retmode": "json"}
@@ -264,30 +238,16 @@ async def buscar_pubmed(client: httpx.AsyncClient, query: str, max_results: int 
             results.append({"source": "PubMed", "title": doc.get("title", ""), "url": f"https://pubmed.ncbi.nlm.nih.gov/{id_}/", "abstract": "", "authors": authors})
         return results
     except Exception as e: logger.debug("PubMed error: %s", e); return []
-async def buscar_scielo(client: httpx.AsyncClient, query: str, max_results: int = 3) -> List[Dict[str, Any]]:
-    try:
-        url = "https://search.scielo.org/api/v1/search/"; params = {"q": query, "count": max_results}
-        resp = await client.get(url, params=params, headers=DEFAULT_HEADERS, timeout=15); resp.raise_for_status()
-        data = resp.json().get("results", []); results = []
-        for a in data:
-            try: title = a.get("title", [{}])[0].get("v", "") if a.get("title") else ""
-            except Exception: title = ""
-            try: abstract = a.get("abstract", [{}])[0].get("v", "") if a.get("abstract") else ""
-            except Exception: abstract = ""
-            authors = [author.get("v", "") for author in a.get("author", [])] if a.get("author") else []
-            results.append({"source": "SciELO", "title": title, "url": a.get("url", ""), "abstract": abstract, "authors": authors})
-        return results
-    except httpx.HTTPStatusError as e: logger.warning("SciELO HTTP error: %s", e); return []
-    except Exception as e: logger.debug("SciELO error: %s", e); return []
+
 def _run_sync_genai_generate(model_name: str, prompt: str) -> str:
     if genai_client is None or google_genai_sdk is None:
         raise RuntimeError("Gemini client (google-genai) não configurado")
     try:
-        model_to_use = f"models/{model_name}"
-        response = genai_client.models.generate_content(model=model_to_use, contents=prompt)
+        response = genai_client.models.generate_content(model=f"models/{model_name}", contents=prompt)
         return response.text.strip()
     except Exception as e:
         logger.error(f"Erro detalhado do _run_sync_genai_generate: {e}"); raise
+    
 async def gerar_resumo_gemini_async(pergunta: str, contexto: str) -> str:
     if google_genai_sdk is None: raise RuntimeError("Gemini não disponível")
     for modelo in GEMINI_MODELS:
@@ -298,13 +258,14 @@ async def gerar_resumo_gemini_async(pergunta: str, contexto: str) -> str:
         except Exception as e:
             logger.warning("Falha com Gemini model %s (Async, SDK Novo): %s", modelo, e); continue
     raise RuntimeError("Nenhum modelo Gemini disponível ou todos falharam.")
+
 async def gerar_resumo_openai_async(pergunta: str, contexto: str) -> str:
     if openai is None or OPENAI_API_KEY is None:
         raise RuntimeError("OpenAI não disponível ou chave não configurada")
     try:
         client = openai.AsyncOpenAI(api_key=OPENAI_API_KEY)
     except Exception as e:
-         raise RuntimeError(f"Falha ao instanciar cliente AsyncOpenAI: {e}")
+        raise RuntimeError(f"Falha ao instanciar cliente AsyncOpenAI: {e}")
     try:
         logger.info("Tentando OpenAI model gpt-4o-mini (Async)")
         prompt = (f"Responda exclusivamente em Português do Brasil. Você é um assistente de pesquisa acadêmica. Resuma de forma concisa e didática a seguinte informação respondendo à pergunta: '{pergunta}'. Indique fontes entre colchetes [Fonte]. Seja claro e objetivo.\n\n{contexto}")
@@ -314,6 +275,7 @@ async def gerar_resumo_openai_async(pergunta: str, contexto: str) -> str:
         return content.strip()
     except Exception as e:
         logger.warning("Falha na chamada 'client.chat.completions.create' (Async): %s", e); raise
+    
 def gerar_resumo_local(pergunta: str, contexto: str) -> str:
     try:
         parts = [];
@@ -322,6 +284,7 @@ def gerar_resumo_local(pergunta: str, contexto: str) -> str:
         footer = "\n\n(Resumo gerado localmente; verifique suas chaves de API Gemini/OpenAI para resumos melhores.)"
         return summary + footer
     except Exception as e: logger.debug("Erro resumo local: %s", e); return "❌ Não foi possível gerar resumo."
+
 async def gerar_resumo_por_fallback(pergunta: str, resultados: List[Dict[str, Any]]) -> str:
     contexto = "\n\n".join([f"[{r.get('source')}] {r.get('title')}\n{r.get('abstract','')}" for r in resultados if r.get("title")])
     if google_genai_sdk is not None:
@@ -337,9 +300,12 @@ async def gerar_resumo_por_fallback(pergunta: str, resultados: List[Dict[str, An
         except Exception as e:
             logger.warning("OpenAI falhou: %s", e)
     logger.info("Ambas IAs falharam, usando fallback local."); return gerar_resumo_local(pergunta, contexto)
+
 API_SEMAPHORE = asyncio.Semaphore(API_CONCURRENCY)
+
 async def executar_buscas(query: str, fontes: Optional[List[str]], max_results: int) -> List[Dict[str, Any]]:
-    fontes = [f.lower() for f in fontes] if fontes else ["semantic_scholar", "ieee", "wikipedia", "arxiv", "pubmed", "scielo"]
+    fontes_default = ["semantic_scholar", "ieee", "wikipedia", "arxiv", "pubmed"]
+    fontes = [f.lower() for f in fontes] if fontes else fontes_default
     key_cache = f"{query}::{'|'.join(sorted(fontes))}::{max_results}"
     cached = await cache_get(key_cache)
     if cached:
@@ -352,7 +318,6 @@ async def executar_buscas(query: str, fontes: Optional[List[str]], max_results: 
             if "wikipedia" in fontes: tasks.append(retry_async(buscar_wikipedia, client, query, max_results))
             if "arxiv" in fontes: tasks.append(retry_async(buscar_arxiv, client, query, max_results))
             if "pubmed" in fontes: tasks.append(retry_async(buscar_pubmed, client, query, max_results))
-            if "scielo" in fontes: tasks.append(retry_async(buscar_scielo, client, query, max_results))
             if not tasks: return []
             results_lists = await asyncio.gather(*tasks, return_exceptions=True); results = []
             for r in results_lists:
@@ -363,9 +328,7 @@ async def executar_buscas(query: str, fontes: Optional[List[str]], max_results: 
                 norm.append({"source": r.get("source", ""), "title": r.get("title") or r.get("titulo") or "", "url": r.get("url") or r.get("link") or "", "abstract": r.get("abstract") or r.get("conteudo") or "", "authors": r.get("authors") or r.get("autores") or []})
             if norm: await cache_set(key_cache, norm)
             return norm
-# --------------------------
-# ENDPOINTS (PESQUISA)
-# --------------------------
+        
 @app.post("/perguntar", response_model=RespostaBusca, tags=["Pesquisa (Protegido)"])
 async def perguntar(
     pergunta: PerguntaUsuario,
@@ -373,16 +336,13 @@ async def perguntar(
     db: Session = Depends(get_db)
 ):
     q = normalize_query(pergunta.texto)
-    if not q: raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Pergunta vazia.")
-    
+    if not q: raise HTTPException(status_code=400, detail="Pergunta vazia.")
     logger.info("[%s] Novo pedido (usuário: %s): %s", METRICS["queries"], current_user.username, q)
     METRICS["queries"] += 1; METRICS["last_query_time"] = datetime.utcnow().isoformat()
-    
     try:
         resultados = await executar_buscas(q, pergunta.fontes, pergunta.max_results)
     except Exception as e:
         logger.exception("Erro ao executar buscas: %s", e); resultados = []
-    
     if not resultados:
         try:
             if google_genai_sdk is not None:
@@ -395,7 +355,6 @@ async def perguntar(
                         resultados = await executar_buscas(termo_otimizado, pergunta.fontes, pergunta.max_results)
                 except Exception as e: logger.debug("Gemini optimize falhou: %s", e)
         except Exception as e: logger.debug("Erro na otimização: %s", e)
-
     if not resultados:
         resumo = "❌ Não foi possível encontrar resultados nas fontes selecionadas."
         try:
@@ -403,9 +362,7 @@ async def perguntar(
             asyncio.create_task(asyncio.to_thread(crud.create_user_history_item, db=SessionLocal(), user_id=current_user.id, item=history_item_data))
         except Exception as e:
             logger.error(f"Falha ao salvar histórico de falha para user {current_user.id}: {e}")
-            
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=resumo)
-
+        raise HTTPException(status_code=404, detail=resumo)
     resumo = ""
     if pergunta.resumir:
         try: resumo = await gerar_resumo_por_fallback(pergunta.texto, resultados)
@@ -426,7 +383,7 @@ async def perguntar(
             item=history_item_data
         ))
     except Exception as e:
-        logger.error(f"Falha ao salvar histórico de sucesso para user {current_user.id}: {e}")    
+        logger.error(f"Falha ao salvar histórico de sucesso para user {current_user.id}: {e}")     
     resultados_model = [ArtigoResultado(source=r.get("source", ""), title=r.get("title", ""), url=r.get("url", ""), abstract=r.get("abstract", ""), authors=r.get("authors", [])) for r in resultados]
     return RespostaBusca(resumo_ia=resumo, resultados=resultados_model)
 
@@ -444,109 +401,47 @@ async def endpoint_limpar_historico(
 ):
     ok = await asyncio.to_thread(crud.clear_user_history, db=db, user_id=current_user.id)
     if not ok: 
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Erro ao limpar histórico.")
-    return Response(status_code=status.HTTP_204_NO_CONTENT)
+        raise HTTPException(status_code=500, detail="Erro ao limpar histórico.")
+    return Response(status_code=204)
 
 @app.get("/metrics", tags=["Admin"])
 async def get_metrics(): return METRICS
+
 @app.get("/", tags=["Admin"])
 async def root(): return {"status": "AI Academy ativo", "version": app.version, "metrics": METRICS}
+
 @app.get("/favicon.ico", include_in_schema=False)
 def favicon(): return Response(status_code=204)
 
-# --------------------------
-# ENDPOINTS: AUTENTICAÇÃO
-# --------------------------
+@app.post("/users/register", tags=["Autenticação"])
 
-@app.post("/users/register", response_model=schemas.User, tags=["Autenticação"])
 async def register_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    
-    # ✅ INÍCIO DA CORREÇÃO (try...except)
-    try:
-        db_user_username = crud.get_user_by_username(db, username=user.username)
-        if db_user_username:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Nome de usuário já registrado."
-            )
-        
-        db_user_email = crud.get_user_by_email(db, email=user.email)
-        if db_user_email:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="E-mail já registrado."
-            )
-                
-        if len(user.password) < 8: 
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="A senha deve ter no mínimo 8 caracteres."
-            )
-
-        new_user = await asyncio.to_thread(crud.create_user, db=db, user=user)
-
-        if serializer:
-            confirmation_token = serializer.dumps(new_user.id, salt='email-confirm')
-            
-            # Chama a função síncrona em uma thread
-            asyncio.create_task(asyncio.to_thread(
-                email_service.send_confirmation_email,
-                recipient_email=new_user.email,
-                username=new_user.username,
-                confirmation_token=confirmation_token,
-                frontend_url=FRONTEND_URL
-            ))
-        else:
-            logger.warning(f"Confirmação de e-mail desabilitada. Ativando usuário {new_user.username} automaticamente.")
-            await asyncio.to_thread(crud.activate_user, db=db, user_id=new_user.id)
-
-        return new_user
-
-    # ✅ CORREÇÃO: Captura o IntegrityError do banco de dados (evita o crash 500)
-    except IntegrityError as e:
-        db.rollback() # Desfaz a transação
-        logger.warning(f"IntegrityError no registro: {e}")
-        # Verifica qual constraint falhou (embora já tenhamos checado, isso é um "cinto de segurança")
-        if "users.email" in str(e):
-             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="E-mail já registrado."
-            )
-        if "users.username" in str(e):
-             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Nome de usuário já registrado."
-            )
-        # Se for outro IntegrityError
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Erro interno do banco de dados."
-        )
-    except Exception as e:
-        logger.error(f"Erro não esperado no registro: {e}")
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Ocorreu um erro inesperado."
-        )
+    db_user = crud.get_user_by_username(db, username=user.username)
+    if db_user:
+        raise HTTPException(status_code=400, detail="Username já cadastrado") 
+    new_user = await asyncio.to_thread(crud.create_user, db=db, user=user)
+    return {"message": f"Usuário {user.username} registrado. Verifique seu e-mail para confirmação."}
 
 @app.get("/users/confirm-account", tags=["Autenticação"])
-async def confirm_account(token: str = Query(...), db: Session = Depends(get_db)):
-    if not serializer:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Confirmação de e-mail não configurada no servidor.")
-
-    try:
-        user_id = serializer.loads(token, salt='email-confirm', max_age=3600)
-    except SignatureExpired:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="O token de confirmação expirou.")
-    except BadTimeSignature:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="O token de confirmação é inválido.")
-    except Exception:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="O token de confirmação é inválido.")
-
-    user = await asyncio.to_thread(crud.activate_user, db=db, user_id=user_id)
+async def confirm_account(token: str, db: Session = Depends(get_db)):
+    """
+    Endpoint (baseado nos logs) para confirmar a conta do usuário via token.
+    """
+    credentials_exception = HTTPException(
+        status_code=400,
+        detail="Token de confirmação inválido ou expirado",
+    )
+    username = security.verify_confirmation_token(token, credentials_exception)
+    if not username:
+        raise credentials_exception
+    user = crud.get_user_by_username(db, username=username)
     if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Usuário não encontrado.")
-    
+        raise HTTPException(status_code=404, detail="Usuário não encontrado")
+    if user.is_active:
+        return {"message": "Sua conta já foi confirmada anteriormente."}
+    ok = crud.activate_user(db, user)
+    if not ok:
+        raise HTTPException(status_code=500, detail="Não foi possível ativar a conta.")
     return {"message": "Sua conta foi confirmada com sucesso! Você já pode fazer login."}
 
 @app.post("/token", response_model=schemas.Token, tags=["Autenticação"])
@@ -555,42 +450,33 @@ async def login_for_access_token(
     db: Session = Depends(get_db)
 ):
     user = crud.get_user_by_username(db, username=form_data.username)
-    
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+            status_code=401,
             detail="Usuário ou senha incorretos",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    
-    if not user.is_active:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Conta não ativada. Por favor, confirme seu e-mail.",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-            
     is_password_correct = await asyncio.to_thread(
         security.verify_password, form_data.password, user.hashed_password
     )
-        
     if not is_password_correct:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+            status_code=401,
             detail="Usuário ou senha incorretos",
             headers={"WWW-Authenticate": "Bearer"},
         )
-
+    if not user.is_active:
+        raise HTTPException(
+            status_code=401, 
+            detail="Conta não confirmada. Por favor, verifique seu e-mail.",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
     access_token = security.create_access_token(
         data={"sub": user.username}
     )
-        
     return {"access_token": access_token, "token_type": "bearer"}
 
-# --------------------------
-# RUN
-# --------------------------
 if __name__ == "__main__":
     import uvicorn
-    logger.info("Iniciando AI Academy Backend v2.9 (com captura de IntegrityError)")
+    logger.info("Iniciando AI Academy")
     uvicorn.run("backend.main:app", host="0.0.0.0", port=int(os.getenv("PORT", 8080)), reload=True)
