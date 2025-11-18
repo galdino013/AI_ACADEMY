@@ -1,6 +1,6 @@
 # main.py — AI Academy
 # Autor: Igor Galdino
-# Versão: 2.8 (Correção de Envio de Email Síncrono)
+# Versão: 2.9 (Captura IntegrityError no Registro e corrige NameError)
 
 import os
 import json
@@ -25,8 +25,9 @@ from . import models, crud, schemas, security
 from pathlib import Path
 from .database import engine, SessionLocal
 from sqlalchemy.orm import Session
-from . import email_service # Importa o serviço de e-mail
+from . import email_service
 from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
+from sqlalchemy.exc import IntegrityError # ✅ 1. Importe o IntegrityError
 
 # Logger definido no topo
 console = Console()
@@ -63,7 +64,9 @@ DEFAULT_HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Appl
 GEMINI_MODELS = ["gemini-2.5-flash"]
 
 EMAIL_CONFIRMATION_SECRET = os.getenv("EMAIL_CONFIRMATION_SECRET")
-BACKEND_URL = os.getenv("BACKEND_URL")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173") 
+logger.info(f"FRONTEND_URL CARREGADA: {FRONTEND_URL}")
+
 serializer = None
 if EMAIL_CONFIRMATION_SECRET:
     serializer = URLSafeTimedSerializer(EMAIL_CONFIRMATION_SECRET)
@@ -93,7 +96,7 @@ models.Base.metadata.create_all(bind=engine)
 # --------------------------
 # FASTAPI APP
 # --------------------------
-app = FastAPI(title="AI Academy - Backend Profissional", version="2025.11.07 (v2.8)")
+app = FastAPI(title="AI Academy - Backend Profissional", version="2025.11.07 (v2.9)")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["https://aiacademy2025.netlify.app", "http://localhost:5173", "http://127.0.0.1:5173"],
@@ -457,42 +460,74 @@ def favicon(): return Response(status_code=204)
 
 @app.post("/users/register", response_model=schemas.User, tags=["Autenticação"])
 async def register_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    db_user_username = crud.get_user_by_username(db, username=user.username)
-    if db_user_username:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Nome de usuário já registrado."
-        )
     
-    db_user_email = crud.get_user_by_email(db, email=user.email)
-    if db_user_email:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="E-mail já registrado."
-        )
+    # ✅ INÍCIO DA CORREÇÃO (try...except)
+    try:
+        db_user_username = crud.get_user_by_username(db, username=user.username)
+        if db_user_username:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Nome de usuário já registrado."
+            )
+        
+        db_user_email = crud.get_user_by_email(db, email=user.email)
+        if db_user_email:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="E-mail já registrado."
+            )
+                
+        if len(user.password) < 8: 
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="A senha deve ter no mínimo 8 caracteres."
+            )
+
+        new_user = await asyncio.to_thread(crud.create_user, db=db, user=user)
+
+        if serializer:
+            confirmation_token = serializer.dumps(new_user.id, salt='email-confirm')
             
-    if len(user.password) < 8: 
+            # Chama a função síncrona em uma thread
+            asyncio.create_task(asyncio.to_thread(
+                email_service.send_confirmation_email,
+                recipient_email=new_user.email,
+                username=new_user.username,
+                confirmation_token=confirmation_token,
+                frontend_url=FRONTEND_URL
+            ))
+        else:
+            logger.warning(f"Confirmação de e-mail desabilitada. Ativando usuário {new_user.username} automaticamente.")
+            await asyncio.to_thread(crud.activate_user, db=db, user_id=new_user.id)
+
+        return new_user
+
+    # ✅ CORREÇÃO: Captura o IntegrityError do banco de dados (evita o crash 500)
+    except IntegrityError as e:
+        db.rollback() # Desfaz a transação
+        logger.warning(f"IntegrityError no registro: {e}")
+        # Verifica qual constraint falhou (embora já tenhamos checado, isso é um "cinto de segurança")
+        if "users.email" in str(e):
+             raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="E-mail já registrado."
+            )
+        if "users.username" in str(e):
+             raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Nome de usuário já registrado."
+            )
+        # Se for outro IntegrityError
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="A senha deve ter no mínimo 8 caracteres."
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Erro interno do banco de dados."
         )
-
-    new_user = await asyncio.to_thread(crud.create_user, db=db, user=user)
-
-    if serializer:
-        confirmation_token = serializer.dumps(new_user.id, salt='email-confirm')
-        asyncio.create_task(asyncio.to_thread(
-            email_service.send_confirmation_email,
-            recipient_email=new_user.email,
-            username=new_user.username,
-            confirmation_token=confirmation_token,
-            frontend_url=FRONTEND_URL
-        ))
-    else:
-        logger.warning(f"Confirmação de e-mail desabilitada. Ativando usuário {new_user.username} automaticamente.")
-        await asyncio.to_thread(crud.activate_user, db=db, user_id=new_user.id)
-
-    return new_user
+    except Exception as e:
+        logger.error(f"Erro não esperado no registro: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Ocorreu um erro inesperado."
+        )
 
 @app.get("/users/confirm-account", tags=["Autenticação"])
 async def confirm_account(token: str = Query(...), db: Session = Depends(get_db)):
@@ -557,5 +592,5 @@ async def login_for_access_token(
 # --------------------------
 if __name__ == "__main__":
     import uvicorn
-    logger.info("Iniciando AI Academy Backend v2.8")
+    logger.info("Iniciando AI Academy Backend v2.9 (com captura de IntegrityError)")
     uvicorn.run("backend.main:app", host="0.0.0.0", port=int(os.getenv("PORT", 8080)), reload=True)
