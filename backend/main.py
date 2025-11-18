@@ -10,18 +10,17 @@ import httpx
 import xmltodict
 import aiofiles
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Response, Depends
+from fastapi import FastAPI, HTTPException, Response, Depends, BackgroundTasks 
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from rich.logging import RichHandler
 from rich.console import Console
 from unidecode import unidecode
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from .import models, crud, schemas, security  
+from .import models, crud, schemas, security, email_service 
 from pathlib import Path
 from .database import engine, SessionLocal
 from sqlalchemy.orm import Session
-
 try:
     from google import genai as google_genai_sdk
 except Exception:
@@ -30,13 +29,15 @@ try:
     import openai
 except Exception:
     openai = None
-
 BASE_DIR = Path(__file__).resolve().parent
 load_dotenv(dotenv_path=BASE_DIR / ".env")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 SEMANTIC_API_KEY = os.getenv("SEMANTIC_SCHOLAR_API_KEY")
 IEEE_API_KEY = os.getenv("IEEE_API_KEY")
+FRONTEND_URL = os.getenv("FRONTEND_URL")
+if not FRONTEND_URL:
+    print("⚠️ Aviso: FRONTEND_URL não definida no .env. E-mails de confirmação podem falhar.")
 CACHE_FILE = BASE_DIR / os.getenv("CACHE_FILE", "search_cache.json")
 CACHE_TTL_MINUTES = int(os.getenv("CACHE_TTL_MINUTES", "60"))
 MAX_HISTORY = int(os.getenv("MAX_HISTORY", "200"))
@@ -44,19 +45,23 @@ API_CONCURRENCY = int(os.getenv("API_CONCURRENCY", "10"))
 DEFAULT_HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"}
 GEMINI_MODELS = ["gemini-2.5-flash"] 
 
+console = Console()
+logging.basicConfig(level="INFO", format="%(message)s", datefmt="[%X]", handlers=[RichHandler(console=console)])
+logger = logging.ggetLogger("ai_academy")
+logger.setLevel(logging.INFO)
+models.Base.metadata.create_all(bind=engine)
+
 if google_genai_sdk and GEMINI_API_KEY:
-    try: genai_client = google_genai_sdk.Client()
-    except Exception as e: print(f"⚠️ Aviso: Falha ao instanciar 'genai.Client()': {e}"); genai_client = None; google_genai_sdk = None
+    try: 
+        genai_client = google_genai_sdk.Client()
+        logger.info("Google GenAI SDK inicializado com sucesso.")
+    except Exception as e: 
+        print(f"⚠️ Aviso: Falha ao instanciar 'genai.Client()': {e}"); genai_client = None; google_genai_sdk = None
 else: genai_client = None; google_genai_sdk = None
 if openai and OPENAI_API_KEY: pass
 else: openai = None
 
-console = Console()
-logging.basicConfig(level="INFO", format="%(message)s", datefmt="[%X]", handlers=[RichHandler(console=console)])
-logger = logging.getLogger("ai_academy")
-logger.setLevel(logging.INFO)
-models.Base.metadata.create_all(bind=engine)
-app = FastAPI(title="AI Academy - Backend Profissional", version="2025.11.18 (v2.7)")
+app = FastAPI(title="AI Academy - Backend Profissional", version="2025.11.18 (v2.8)")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -72,6 +77,7 @@ def get_db():
     finally:
         db.close()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
 async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> models.User:
     credentials_exception = HTTPException(
         status_code=401,
@@ -93,6 +99,7 @@ class ArtigoResultado(BaseModel):
 class RespostaBusca(BaseModel):
     resumo_ia: str; resultados: List[ArtigoResultado]
 _cache_lock = asyncio.Lock()
+
 async def _load_cache() -> Dict[str, Any]:
     try:
         async with _cache_lock:
@@ -174,13 +181,7 @@ async def buscar_ieee(client: httpx.AsyncClient, query: str, max_results: int = 
 async def buscar_wikipedia(client: httpx.AsyncClient, query: str, max_results: int = 3) -> List[Dict[str, Any]]:
     try:
         url = "https://pt.wikipedia.org/w/api.php"
-        params = {
-            "action": "query",
-            "list": "search",
-            "srsearch": query, 
-            "srlimit": max_results,
-            "format": "json"
-        }
+        params = {"action": "query", "list": "search", "srsearch": query, "srlimit": max_results, "format": "json"}
         resp = await client.get(url, params=params, headers=DEFAULT_HEADERS, timeout=10)
         resp.raise_for_status()
         data = resp.json()
@@ -192,21 +193,11 @@ async def buscar_wikipedia(client: httpx.AsyncClient, query: str, max_results: i
         for item in search_results:
             page_id = item.get("pageid")
             snippet = item.get("snippet", "").replace('<span class="searchmatch">', "").replace('</span>', "")
-            results.append({
-                "source": "Wikipedia",
-                "title": item.get("title", ""),
-                "url": f"https://pt.wikipedia.org/?curid={page_id}", 
-                "abstract": snippet + "...",
-                "authors": [] 
-            })
+            results.append({"source": "Wikipedia", "title": item.get("title", ""), "url": f"https://pt.wikipedia.org/?curid={page_id}", "abstract": snippet + "...", "authors": []})
         return results
-    except httpx.HTTPStatusError as e:
-        logger.debug("Wikipedia search API status error: %s", e)
-        return []
-    except Exception as e:
-        logger.debug("Wikipedia search API error: %s", e)
-        return []
-    
+    except httpx.HTTPStatusError as e: logger.debug("Wikipedia search API status error: %s", e); return []
+    except Exception as e: logger.debug("Wikipedia search API error: %s", e); return []
+
 async def buscar_arxiv(client: httpx.AsyncClient, query: str, max_results: int = 3) -> List[Dict[str, Any]]:
     try:
         url = "https://export.arxiv.org/api/query"; params = {"search_query": f'all:"{query}"', "start": 0, "max_results": max_results}
@@ -287,6 +278,8 @@ def gerar_resumo_local(pergunta: str, contexto: str) -> str:
 
 async def gerar_resumo_por_fallback(pergunta: str, resultados: List[Dict[str, Any]]) -> str:
     contexto = "\n\n".join([f"[{r.get('source')}] {r.get('title')}\n{r.get('abstract','')}" for r in resultados if r.get("title")])
+    if not contexto.strip():
+        return "Não foi possível gerar um resumo pois os resultados não continham texto."
     if google_genai_sdk is not None:
         try:
             resumo = await gerar_resumo_gemini_async(pergunta, contexto)
@@ -359,7 +352,7 @@ async def perguntar(
         resumo = "❌ Não foi possível encontrar resultados nas fontes selecionadas."
         try:
             history_item_data = schemas.HistoryItemCreate(pergunta=pergunta.texto, resumo_ia=resumo, resultados=[])
-            asyncio.create_task(asyncio.to_thread(crud.create_user_history_item, db=SessionLocal(), user_id=current_user.id, item=history_item_data))
+            await asyncio.to_thread(crud.create_user_history_item, db=SessionLocal(), user_id=current_user.id, item=history_item_data)
         except Exception as e:
             logger.error(f"Falha ao salvar histórico de falha para user {current_user.id}: {e}")
         raise HTTPException(status_code=404, detail=resumo)
@@ -376,12 +369,12 @@ async def perguntar(
             resumo_ia=resumo, 
             resultados=resultados
         )
-        asyncio.create_task(asyncio.to_thread(
+        await asyncio.to_thread(
             crud.create_user_history_item, 
             db=SessionLocal(),
             user_id=current_user.id, 
             item=history_item_data
-        ))
+        )
     except Exception as e:
         logger.error(f"Falha ao salvar histórico de sucesso para user {current_user.id}: {e}")     
     resultados_model = [ArtigoResultado(source=r.get("source", ""), title=r.get("title", ""), url=r.get("url", ""), abstract=r.get("abstract", ""), authors=r.get("authors", [])) for r in resultados]
@@ -392,7 +385,8 @@ async def endpoint_ler_historico(
     current_user: models.User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ): 
-    return crud.get_user_history(db=db, user_id=current_user.id)
+    history = await asyncio.to_thread(crud.get_user_history, db=db, user_id=current_user.id)
+    return history
 
 @app.delete("/historico", tags=["Pesquisa (Protegido)"])
 async def endpoint_limpar_historico(
@@ -414,19 +408,31 @@ async def root(): return {"status": "AI Academy ativo", "version": app.version, 
 def favicon(): return Response(status_code=204)
 
 @app.post("/users/register", tags=["Autenticação"])
-
-async def register_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    db_user = crud.get_user_by_username(db, username=user.username)
+async def register_user(
+    user: schemas.UserCreate, 
+    background_tasks: BackgroundTasks, 
+    db: Session = Depends(get_db)
+):
+    db_user = await asyncio.to_thread(crud.get_user_by_username, db, username=user.username)
     if db_user:
-        raise HTTPException(status_code=400, detail="Username já cadastrado") 
+        raise HTTPException(status_code=400, detail="Username já cadastrado")
+    db_email = await asyncio.to_thread(crud.get_user_by_email, db, email=user.email)
+    if db_email:
+        raise HTTPException(status_code=400, detail="E-mail já cadastrado")
     new_user = await asyncio.to_thread(crud.create_user, db=db, user=user)
+    confirmation_token = security.create_confirmation_token(username=new_user.username)
+    background_tasks.add_task(
+        email_service.send_confirmation_email,
+        recipient_email=new_user.email,
+        username=new_user.username,
+        confirmation_token=confirmation_token,
+        frontend_url=FRONTEND_URL
+    )
+    logger.info(f"Usuário {new_user.username} registrado. Tarefa de envio de e-mail agendada.")
     return {"message": f"Usuário {user.username} registrado. Verifique seu e-mail para confirmação."}
 
 @app.get("/users/confirm-account", tags=["Autenticação"])
 async def confirm_account(token: str, db: Session = Depends(get_db)):
-    """
-    Endpoint (baseado nos logs) para confirmar a conta do usuário via token.
-    """
     credentials_exception = HTTPException(
         status_code=400,
         detail="Token de confirmação inválido ou expirado",
@@ -434,14 +440,15 @@ async def confirm_account(token: str, db: Session = Depends(get_db)):
     username = security.verify_confirmation_token(token, credentials_exception)
     if not username:
         raise credentials_exception
-    user = crud.get_user_by_username(db, username=username)
+    user = await asyncio.to_thread(crud.get_user_by_username, db, username=username)
     if not user:
         raise HTTPException(status_code=404, detail="Usuário não encontrado")
     if user.is_active:
         return {"message": "Sua conta já foi confirmada anteriormente."}
-    ok = crud.activate_user(db, user)
+    ok = await asyncio.to_thread(crud.activate_user, db, user_id=user.id)
     if not ok:
         raise HTTPException(status_code=500, detail="Não foi possível ativar a conta.")
+    logger.info(f"Conta do usuário {username} confirmada com sucesso.")
     return {"message": "Sua conta foi confirmada com sucesso! Você já pode fazer login."}
 
 @app.post("/token", response_model=schemas.Token, tags=["Autenticação"])
@@ -449,7 +456,7 @@ async def login_for_access_token(
     form_data: OAuth2PasswordRequestForm = Depends(), 
     db: Session = Depends(get_db)
 ):
-    user = crud.get_user_by_username(db, username=form_data.username)
+    user = await asyncio.to_thread(crud.get_user_by_username, db, username=form_data.username)
     if not user:
         raise HTTPException(
             status_code=401,
@@ -466,6 +473,7 @@ async def login_for_access_token(
             headers={"WWW-Authenticate": "Bearer"},
         )
     if not user.is_active:
+        logger.warning(f"Tentativa de login em conta não ativa: {user.username}")
         raise HTTPException(
             status_code=401, 
             detail="Conta não confirmada. Por favor, verifique seu e-mail.",
@@ -474,9 +482,9 @@ async def login_for_access_token(
     access_token = security.create_access_token(
         data={"sub": user.username}
     )
+    logger.info(f"Usuário {user.username} logado com sucesso.")
     return {"access_token": access_token, "token_type": "bearer"}
-
 if __name__ == "__main__":
     import uvicorn
-    logger.info("Iniciando AI Academy")
+    logger.info("Iniciando AI Academy Backend v2.8")
     uvicorn.run("backend.main:app", host="0.0.0.0", port=int(os.getenv("PORT", 8080)), reload=True)
