@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import './AuthPage.css'; 
 
+// 1. Definimos API_URL aqui
 const API_URL = import.meta.env.VITE_API_URL;
 
 const ConfirmAccountPage = () => {
@@ -22,6 +23,7 @@ const ConfirmAccountPage = () => {
 
     const confirmAccount = async () => {
       try {
+        // 2. CORREÇÃO AQUI: Usamos 'API_URL' (não API_BASE_URL) e crases (backticks)
         const response = await fetch(`${API_URL}/users/confirm-account?token=${token}`, {
           method: 'GET',
           headers: {
