@@ -1,14 +1,17 @@
 /* frontend/src/pages/FuncionalidadesPage.css */
 
-/* Reutiliza o container da Landing Page para manter o fundo e alinhamento */
 .funcionalidades-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
     width: 100%;
-    /* Fundo escuro padrão */
-    background-color: var(--bg-dark); 
+    
+    /* ✅ MUDANÇA: Fundo transparente para ver a animação atrás */
+    background-color: transparent; 
+    
+    position: relative;
+    z-index: 0;
 }
 
 /* Grid para os cards das funcionalidades */
@@ -24,7 +27,8 @@
 
 /* Estilo de cada Card */
 .feature-card {
-    background-color: var(--bg-panel-solid);
+    /* Mantemos o fundo sólido nos cards para leitura */
+    background-color: var(--bg-panel-solid); 
     border: 1px solid var(--border-color);
     border-radius: 16px;
     padding: 32px;
