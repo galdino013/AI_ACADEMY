@@ -7,7 +7,7 @@
     min-height: 100vh;
     width: 100%;
     
-    /* ✅ MUDANÇA: Fundo transparente para ver a animação atrás */
+    /* ✅ Fundo transparente para ver a animação atrás */
     background-color: transparent; 
     
     position: relative;
@@ -27,7 +27,7 @@
 
 /* Estilo de cada Card */
 .feature-card {
-    /* Mantemos o fundo sólido nos cards para leitura */
+    /* Mantemos o fundo sólido (escuro) nos cards para leitura */
     background-color: var(--bg-panel-solid); 
     border: 1px solid var(--border-color);
     border-radius: 16px;

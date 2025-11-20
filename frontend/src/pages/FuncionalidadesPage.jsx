@@ -4,15 +4,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import logoImage from '../assets/Logo_AI.png';
 import { useAuth } from '../context/AuthContext';
-import './LandingPage.css'; // Importa o CSS que contém a animação (.gradient-background-container)
-import './FuncionalidadesPage.css'; // Importa estilos específicos desta página
+import './LandingPage.css'; // Importa a animação de fundo (.gradient-background-container)
+import './FuncionalidadesPage.css'; // Importa os estilos específicos desta página
 
 const FuncionalidadesPage = () => {
   const { isAuthenticated, user, logout } = useAuth();
 
   return (
     <>
-      {/* ✅ ADICIONADO: O fundo animado (igual ao da Home) */}
+      {/* ✅ ADICIONADO: O fundo animado (igual ao da Home e Sobre) */}
       <div className="gradient-background-container"></div>
 
       <div className="funcionalidades-container">
