@@ -268,3 +268,6 @@ frontend/node_modules/
 frontend/dist/
 frontend/.vite/
 frontend/.env # Se você tiver um .env no frontend, ignore também
+backend/.env
+
+backend/.env

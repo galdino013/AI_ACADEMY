@@ -1,0 +1,42 @@
+/* src/pages/SobrePage.css */
+
+/* Importa a base visual (fundo, fontes, botões) */
+@import './LandingPage.css';
+
+.sobre-container {
+    width: 100%;
+    max-width: 800px; /* Um pouco mais largo para leitura */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Caixa para o texto ficar legível sobre o fundo */
+.sobre-content-box {
+    margin-top: 40px;
+    background-color: rgba(26, 26, 46, 0.6); /* Fundo escuro semi-transparente */
+    backdrop-filter: blur(10px); /* Efeito de vidro */
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* Ajuste fino nos parágrafos dentro da caixa */
+.sobre-content-box p {
+    margin-bottom: 24px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-secondary); /* Garante contraste */
+}
+
+.sobre-content-box strong {
+    color: white;
+    font-weight: 700;
+}
+
+.cta-wrapper {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}
