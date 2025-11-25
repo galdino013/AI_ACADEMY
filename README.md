@@ -28,13 +28,6 @@
 A aplicação está hospedada e pode ser acessada publicamente.
 
 **Link da Aplicação:** **[https://aiacademy2025.netlify.app/](https://aiacademy2025.netlify.app/)**
-
-> **Nota para a Banca:**
->
->   * O backend está hospedado no Render.com (plano gratuito) e **"dorme" após 15 minutos de inatividade**.
->   * A primeira requisição (login ou registro) pode demorar de **30 a 60 segundos** para "acordar" o servidor. Após isso, o site funcionará com velocidade normal.
->   * O banco de dados do deploy é "efêmero" (temporário), então os usuários de teste são limpos periodicamente. Sinta-se à vontade para criar uma nova conta.
-
 -----
 
 ## 📘 Sobre o Projeto
