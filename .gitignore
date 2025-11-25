@@ -7,10 +7,6 @@ venv/
 __pycache__/
 *.pyc
 
-# Arquivos de Chaves de API e Variáveis de Ambiente
-# NUNCA envie este arquivo para o GitHub!
-.env
-
 # Dependências e Arquivos de Build do Frontend (Node.js/React)
 # Ignora a pasta gigante de pacotes do Node
 frontend/node_modules/
@@ -171,12 +167,8 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
-.envrc
 .venv
-env/
 venv/
-ENV/
 env.bak/
 venv.bak/
 
@@ -244,7 +236,6 @@ __marimo__/
 
 # Ignorar ambientes virtuais
 venv/
-.env/
 
 # Ignorar arquivos de cache e logs do Python
 __pycache__/
@@ -259,7 +250,6 @@ __pycache__/
 # Ignorar arquivos específicos do backend
 backend/sql_app.db
 backend/sql_app.db-journal
-backend/.env
 backend/search_cache.json
 .DS_Store
 
@@ -267,7 +257,3 @@ backend/search_cache.json
 frontend/node_modules/
 frontend/dist/
 frontend/.vite/
-frontend/.env # Se você tiver um .env no frontend, ignore também
-backend/.env
-
-backend/.env
